@@ -20,26 +20,12 @@ Then, create a `config/config.js` file in the project root that contains [Twitte
       wordnikAPIKey: 'mkomniojnnuibiybvuytvutrctrxezewarewetxyfcftvuhbg'
     };
 
-Or with Docker:
-
-    - Create a `config` directory containing the `config.js` file as above.
+Then, run `npm install`. On OS X, you're good. On Ubuntu, for some reason you have to globally install PhantomJS (`apt-get install phantomjs`, which gets you PhantomJS 1.9). (Sorry, I did not find out why.)
 
 Usage
 -----
 
-    make run
-
-
-With Docker:
-
-    docker run -v $(HOMEDIR)/config:/usr/src/app/config \
-        -v $(HOMEDIR)/data:/usr/src/app/data \
-        jkang/linkfinds
-
-Tests
------
-
-Run tests with `make test`.
+    node linkfinds-post.js
 
 License
 -------
