@@ -1,6 +1,7 @@
 var webshot = require('webshot');
 
 var baseLinkRenderURL = 'http://jimkang.com/link-finding/#/thing/';
+// var baseLinkRenderURL = 'http://localhost:9966/#/thing/';
 
 function getLinkFindingImage(imageConceptResult, done) {
   var url = baseLinkRenderURL + encodeURIComponent(imageConceptResult.imgurl);
@@ -13,12 +14,11 @@ function getLinkFindingImage(imageConceptResult, done) {
       height: 800
     },
     shotSize: {
-      width: 800,
+      width: 'all',
       height: 'all'
     },
     streamType: 'png'
   };
-
 
   var renderStream =  webshot(url, webshotOpts);
   renderStream.on('data', saveToBase64Image);
