@@ -8,7 +8,7 @@ pushall: sync
 
 sync:
 	rsync -a $(HOMEDIR) $(SMUSER)@smidgeo-headporters:/var/apps/ --exclude node_modules/ --exclude data/
-	# ssh $(SMUSER)@smidgeo-headporters "cd /var/apps/$(PROJECTNAME) && npm install"
+	ssh $(SMUSER)@smidgeo-headporters "cd /var/apps/$(PROJECTNAME) && npm install"
 
 # restart-remote:
 # 	$(SSHCMD) "systemctl restart $(PROJECTNAME)"
