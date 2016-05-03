@@ -1,0 +1,41 @@
+{
+  "name": "linkfinds",
+  "version": "1.0.0",
+  "description": "Doo-doo-doo!",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jimkang/linkfinds.git"
+  },
+  "keywords": [],
+  "author": "Jim Kang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jimkang/linkfinds/issues"
+  },
+  "homepage": "https://github.com/jimkang/linkfinds",
+  "devDependencies": {
+    "tape": "^3.0.3"
+  },
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "better-know-a-tweet": "^1.0.1",
+    "call-next-tick": "^1.1.2",
+    "change": "0.0.0",
+    "g-i-s": "^1.0.4",
+    "iscool": "^1.1.17",
+    "level": "^1.4.0",
+    "level-sublevel": "^6.5.4",
+    "pick-first-good-url": "^2.0.0",
+    "post-tweet-chain": "^1.0.0",
+    "probable": "^1.8.0",
+    "request": "^2.72.0",
+    "twit": "^2.2.4",
+    "wander-google-ngrams": "^2.5.1",
+    "webshot": "^0.18.0",
+    "wordnok": "^3.1.0"
+  }
+}
