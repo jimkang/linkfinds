@@ -7,6 +7,7 @@ var getImageFromConcepts = require('./get-image-from-concepts');
 var getLinkFindingImage = require('./get-link-finding-image');
 var createWordnok = require('wordnok').createWordnok;
 var postImage = require('./post-image');
+var pluck = require('lodash.pluck');
 
 var source = 'wordnik';
 var dryRun = false;
@@ -36,7 +37,10 @@ async.waterfall(
 
 function getConcepts(done) {
   if (source === 'trending') {
-    callNextTick(done, new Error('Not yet implemented.'));
+    var params = {
+      id: 1 //1 is "Worldwide"
+    };
+    twit.get('trends/place', params, extractTrends);
   }
   else {
     var opts = {
@@ -45,6 +49,16 @@ function getConcepts(done) {
       }
     };
     wordnok.getRandomWords(opts, done);
+  }
+
+  function extractTrends(error, data, response) {
+    if (error) {
+      done(error);
+    }
+    else {
+      var trendNames = pluck(data[0].trends.slice(0, 10), 'name');
+      done(null, probable.shuffle(trendNames));
+    }
   }
 }
 
@@ -56,6 +70,10 @@ function postLinkFindingImage(linkResult, done) {
     altText: linkResult.concept,
     caption: 'DOO DOO DOO!'
   };
+
+  if (source === 'trending') {
+    postImageOpts.caption += ' #' + linkResult.concept;
+  }
   postImage(postImageOpts, done);
 }
 
