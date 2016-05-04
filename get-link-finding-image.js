@@ -2,20 +2,28 @@ var webshot = require('webshot');
 
 var baseLinkRenderURL = 'http://jimkang.com/link-finding/#/thing/';
 // var baseLinkRenderURL = 'http://localhost:9966/#/thing/';
+var maxLinkWidth = 56;
+var linkHeight = 64;
+var linkMarginLeft = 32;
 
 function getLinkFindingImage(imageConceptResult, done) {
   var url = baseLinkRenderURL + encodeURIComponent(imageConceptResult.imgurl);
   url += '/desc/' + imageConceptResult.concept;
   var base64Image = '';
+  var width = imageConceptResult.width;
+  if (width < maxLinkWidth + linkMarginLeft) {
+    width = maxLinkWidth + linkMarginLeft;
+  }
+  var height = imageConceptResult.height + linkHeight;
 
   var webshotOpts = {
     screenSize: {
-      width: 800,
-      height: 800
+      width: width,
+      height: height
     },
     shotSize: {
-      width: 'all',
-      height: 'all'
+      width: width,
+      height: height
     },
     streamType: 'png'
   };

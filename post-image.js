@@ -29,7 +29,6 @@ function postImage(opts, allDone) {
   );
 
   function postMedia(done) {
-    debugger;
     var mediaPostOpts = {
       media_data: base64Image 
     };
@@ -37,7 +36,6 @@ function postImage(opts, allDone) {
   }
 
   function postMetadata(theMediaPostData, response, done) {
-    debugger;
     // Save this for other functions in the above scope.
     mediaPostData = theMediaPostData;
 

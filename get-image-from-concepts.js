@@ -3,6 +3,8 @@ var async = require('async');
 var probable = require('probable');
 var pickFirstGoodURL = require('pick-first-good-url');
 var callNextTick = require('call-next-tick');
+var pluck = require('lodash.pluck');
+var findWhere = require('lodash.findwhere');
 
 function getImageFromConcepts(concepts, allDone) {
   var result;
@@ -23,29 +25,31 @@ function getImageFromConcepts(concepts, allDone) {
         done(null, false);
       }
       else {
-        var imageURLs = probable.shuffle(results.slice(0, 10));
+        var imageResults = probable.shuffle(results.slice(0, 10));
         var pickOpts = {
-          urls: imageURLs,
+          urls: pluck(imageResults, 'url'),
           responseChecker: isImageMIMEType
         };
         pickFirstGoodURL(pickOpts, saveGoodURL);        
-        
       }
-    }
 
-    function saveGoodURL(error, goodURL) {
-      if (error) {
-        done(error);
-      }
-      else if (!goodURL) {
-        done(null, false);
-      }
-      else {
-        result = {
-          concept: concept,
-          imgurl: goodURL 
-        };
-        done(null, true);
+      function saveGoodURL(error, goodURL) {
+        if (error) {
+          done(error);
+        }
+        else if (!goodURL) {
+          done(null, false);
+        }
+        else {
+          var goodGISResult = findWhere(imageResults, {url: goodURL});
+          result = {
+            concept: concept,
+            imgurl: goodURL,
+            width: goodGISResult.width,
+            height: goodGISResult.height
+          };
+          done(null, true);
+        }
       }
     }
   }
