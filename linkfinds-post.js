@@ -68,7 +68,7 @@ function postLinkFindingImage(linkResult, done) {
     dryRun: dryRun,
     base64Image: linkResult.base64Image,
     altText: linkResult.concept,
-    caption: 'DOO DOO DOO!'
+    caption: '♪ DOO DOO DOO! ♪'
   };
 
   if (source === 'trending') {
