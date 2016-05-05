@@ -32,6 +32,7 @@
     "level-sublevel": "^6.5.4",
     "lodash.findwhere": "^3.1.0",
     "lodash.pluck": "^3.1.2",
+    "object-path-exists": "^1.0.0",
     "pick-first-good-url": "^2.0.0",
     "probable": "^1.8.0",
     "request": "^2.72.0",

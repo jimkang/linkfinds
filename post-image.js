@@ -8,6 +8,7 @@ function postImage(opts, allDone) {
   var base64Image;
   var altText;
   var caption;
+  var in_reply_to_status_id;
 
   if (opts) {
     twit = opts.twit;
@@ -15,6 +16,7 @@ function postImage(opts, allDone) {
     base64Image = opts.base64Image;
     altText = opts.altText;
     caption = opts.caption;
+    in_reply_to_status_id = opts.in_reply_to_status_id;
   }
 
   var mediaPostData;
@@ -49,7 +51,6 @@ function postImage(opts, allDone) {
   }
 
   function postTweet(metaDataPostData,  response, done) {
-    debugger;
     if (dryRun) {
       console.log('Would have tweeted: using', opts);
       callNextTick(done);
@@ -61,6 +62,9 @@ function postImage(opts, allDone) {
           mediaPostData.media_id_string
         ]
       };
+      if (in_reply_to_status_id) {
+        body.in_reply_to_status_id = in_reply_to_status_id;
+      }
       twit.post('statuses/update', body, done);
     }
   }

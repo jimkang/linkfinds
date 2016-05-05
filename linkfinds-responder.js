@@ -9,6 +9,10 @@ var shouldReplyToTweet = require('./should-reply-to-tweet');
 var level = require('level');
 var Sublevel = require('level-sublevel');
 var probable = require('probable');
+var getImagesFromTweet = require('get-images-from-tweet');
+var pathExists = require('object-path-exists');
+var postImage = require('./post-image');
+var getLinkFindingImage = require('./get-link-finding-image');
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -33,8 +37,8 @@ function respondToTweet(incomingTweet) {
   async.waterfall(
     [
       checkIfWeShouldReply,
-      composeReply,
-      postTweet,
+      getImage,
+      postLinkFindingImageReply,
       recordThatReplyHappened
     ],
     wrapUp
@@ -48,29 +52,45 @@ function respondToTweet(incomingTweet) {
     shouldReplyToTweet(opts, done);
   }  
 
-  function composeReply(done) {
-    debugger;
-    // TODO.
-    callNextTick(done, null, text);
-  }
+  function getImage(done) {
+    var photo;
+    if (pathExists(incomingTweet, ['entities', 'media'])) {
+      var media = incomingTweet.entities.media;
+      if (media.length > 0) {
+        var photos =  media.filter(isPhoto);
+        photo = probable.pickFromArray(photos);
+      }
+    }
 
-  function postTweet(text, done) {
-    if (dryRun) {
-      console.log('Would have tweeted:', text);
-      var mockTweetData = {
-        user: {
-          id_str: 'mockuser',        
-        }
+    if (photo) {
+      var imageConcept = {
+        imgurl: photo.media_url,
       };
-      callNextTick(done, null, mockTweetData);
+
+      if (photo.sizes && 'medium' in photo.sizes) {
+        imageConcept.width = photo.sizes.medium.w;
+        imageConcept.height = photo.sizes.medium.h;
+      }
+
+      imageConcept.concept = 'image'; // TODO: Get real alt text, if available.
+      getLinkFindingImage(imageConcept, done);
     }
     else {
-      var body = {
-        status: text,
-        in_reply_to_status_id: incomingTweet.id_str
-      };
-      twit.post('statuses/update', body, done);
+      callNextTick(done, new Error('Not implemented.'));
     }
+  }
+
+  function postLinkFindingImageReply(linkResult, done) {
+    var postImageOpts = {
+      twit: twit,
+      dryRun: dryRun,
+      base64Image: linkResult.base64Image,
+      altText: linkResult.concept,
+      caption: '@' + incomingTweet.user.screen_name + ' ♪ DOO DOO DOO! ♪',
+      in_reply_to_status_id: incomingTweet.id_str
+    };
+
+    postImage(postImageOpts, done);
   }
 
   function recordThatReplyHappened(tweetData, response, done) {
@@ -92,4 +112,8 @@ function wrapUp(error, data) {
 
 function logError(error) {
   console.log(error);
+}
+
+function isPhoto(medium) {
+  return medium.type === 'photo';
 }
