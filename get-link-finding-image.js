@@ -9,6 +9,9 @@ var linkMarginLeft = 32;
 function getLinkFindingImage(imageConceptResult, done) {
   var url = baseLinkRenderURL + encodeURIComponent(imageConceptResult.imgurl);
   url += '/desc/' + imageConceptResult.concept;
+  url += '/width/' + imageConceptResult.width + '/height/' + imageConceptResult.height;
+  // console.log('url', url);
+
   var base64Image = '';
   var width = imageConceptResult.width;
   if (width < maxLinkWidth + linkMarginLeft) {
