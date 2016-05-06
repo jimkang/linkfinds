@@ -1,5 +1,5 @@
 var behavior = {
-  hoursToWaitBetweenRepliesToSameUser: 1,
+  hoursToWaitBetweenRepliesToSameUser: 12,
   twitterUsername: 'linkfinds',
   maxCommonness: 1000
 };

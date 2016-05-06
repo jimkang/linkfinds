@@ -3,7 +3,7 @@ SSHCMD = ssh $(SMUSER)@smidgeo-headporters
 PROJECTNAME = linkfinds
 APPDIR = /var/apps/$(PROJECTNAME)
 
-pushall: sync
+pushall: update-remote
 	git push origin master
 
 sync:
