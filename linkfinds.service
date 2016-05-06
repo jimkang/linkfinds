@@ -1,0 +1,13 @@
+[Unit]
+Description=linkfinds
+After=network.target
+[Service]
+ExecStart=/var/apps/linkfinds/linkfinds-responder.js
+Restart=always
+User=app
+Group=app
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/var/apps/linkfinds
+[Install]
+WantedBy=multi-user.target
