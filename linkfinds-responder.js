@@ -13,6 +13,11 @@ var getImagesFromTweet = require('get-images-from-tweet');
 var pathExists = require('object-path-exists');
 var postImage = require('./post-image');
 var getLinkFindingImage = require('./get-link-finding-image');
+var saveWordForUser = require('./save-word-for-user');
+var getInterestingWords = require('./get-interesting-words');
+var Nounfinder = require('nounfinder');
+var getImageFromConcepts = require('./get-image-from-concepts');
+var saveWordForUser = require('./save-word-for-user');
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -21,6 +26,9 @@ if (process.argv.length > 2) {
 
 var db = Sublevel(level(__dirname + '/data/linkfinds-responses.db'));
 var lastReplyDates = db.sublevel('last-reply-dates');
+var nounfinder = Nounfinder({
+  wordnikAPIKey: config.wordnikAPIKey
+});
 
 var username = behavior.twitterUsername;
 
@@ -37,7 +45,8 @@ function respondToTweet(incomingTweet) {
   async.waterfall(
     [
       checkIfWeShouldReply,
-      getImage,
+      getImageConceptFromTweet,
+      getLinkFindingImage,
       postLinkFindingImageReply,
       recordThatReplyHappened
     ],
@@ -52,7 +61,8 @@ function respondToTweet(incomingTweet) {
     shouldReplyToTweet(opts, done);
   }  
 
-  function getImage(done) {
+  function getImageConceptFromTweet(done) {
+    var imageConcept = {};
     var photo;
     if (pathExists(incomingTweet, ['entities', 'media'])) {
       var media = incomingTweet.entities.media;
@@ -63,9 +73,7 @@ function respondToTweet(incomingTweet) {
     }
 
     if (photo) {
-      var imageConcept = {
-        imgurl: photo.media_url,
-      };
+      imageConcept.imgurl = photo.media_url;
 
       if (photo.sizes && 'medium' in photo.sizes) {
         imageConcept.width = photo.sizes.medium.w;
@@ -73,10 +81,45 @@ function respondToTweet(incomingTweet) {
       }
 
       imageConcept.concept = 'image'; // TODO: Get real alt text, if available.
-      getLinkFindingImage(imageConcept, done);
+      callNextTick(done, null, imageConcept);
     }
     else {
-      callNextTick(done, new Error('Not implemented.'));
+      getImageFromText(done);
+    }
+  }
+
+  function getImageFromText(done) {
+    async.waterfall(
+      [
+        getWords,
+        getImageFromConcepts,
+        recordUseOfWord
+      ],
+      done
+    );
+
+    function getWords(getWordsDone) {
+      var opts = {
+        text: incomingTweet.text,
+        username: incomingTweet.user.screen_name,
+        maxCommonness: behavior.maxCommonness,
+        sublevelDb: db,
+        nounfinder: nounfinder
+      };
+      getInterestingWords(opts, getWordsDone);
+    }
+
+    function recordUseOfWord(imageConcept, recordDone) {
+      var saveOpts = {
+        word: imageConcept.concept,
+        username: incomingTweet.user.screen_name,
+        sublevelDb: db
+      };
+      saveWordForUser(saveOpts, passConcept);
+
+      function passConcept(error) {
+        recordDone(error, imageConcept);
+      }
     }
   }
 

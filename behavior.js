@@ -1,6 +1,7 @@
 var behavior = {
   hoursToWaitBetweenRepliesToSameUser: 1,
-  twitterUsername: 'linkfinds'
+  twitterUsername: 'linkfinds',
+  maxCommonness: 1000
 };
 
 module.exports = behavior;

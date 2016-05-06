@@ -7,7 +7,6 @@ var createIsCool = require('iscool');
 var canIChimeIn = require('can-i-chime-in')();
 var iscool = createIsCool();
 var username = behavior.twitterUsername;
-var getImagesFromTweet = require('get-images-from-tweet');
 
 // Passes an error if you should not reply.
 function shouldReplyToTweet(opts, done) {
@@ -40,13 +39,6 @@ function shouldReplyToTweet(opts, done) {
   if (!canIChimeIn(tweet.text)) {
     callNextTick(done, new Error('Cannot chime in on this tweet.'));
     return;    
-  }
-
-  // TODO: Move this up, possibly.
-  var imageURLs = getImagesFromTweet(tweet);
-  if (imageURLs.length < 1) {
-    callNextTick(done, new Error('No reason to reply: No images in tweet.'));
-    return;
   }
 
   async.waterfall(

@@ -22,3 +22,6 @@ sync:
 # install-service:
 # 	$(SSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
 # 	systemctl daemon-reload"
+
+test:
+	node tests/integration/interesting-words-tests.js

@@ -2,3 +2,4 @@
 node_modules
 config.js
 data/linkfinds-responses.db
+tests/integration/word-test.db

@@ -33,7 +33,6 @@ function getInterestingWords(opts, allDone) {
   }
 
   function filterForInterestingness(nouns, done) {
-    debugger;
     nounfinder.filterNounsForInterestingness(nouns,  maxCommonness, done);
   }
 
