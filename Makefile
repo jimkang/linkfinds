@@ -23,5 +23,8 @@ install-service:
 	$(SSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
 	systemctl daemon-reload"
 
+create-dirs:
+	$(SSHCMD) "mkdir -p $(APPDIR)/data"
+
 test:
 	node tests/integration/interesting-words-tests.js
