@@ -41,13 +41,19 @@ function shouldReplyToTweet(opts, done) {
     return;    
   }
 
-  async.waterfall(
-    [
-      goFindLastReplyDate,
-      replyDateWasNotTooRecent
-    ],
-    done
-  );
+  if (isDirectlyAddressingMe(tweet)) {
+    // We can bypass rate limiting (for now) if it's directly addressing us.
+    callNextTick(done);
+  }
+  else {
+    async.waterfall(
+      [
+        goFindLastReplyDate,
+        replyDateWasNotTooRecent
+      ],
+      done
+    );
+  }
 
   function goFindLastReplyDate(done) {
     findLastReplyDateForUser(tweet, done);
@@ -85,6 +91,10 @@ function shouldReplyToTweet(opts, done) {
       ));
     }
   }
+}
+
+function isDirectlyAddressingMe(tweet) {
+  return betterKnowATweet.whosInTheTweet(tweet).indexOf(username) !== -1;
 }
 
 module.exports = shouldReplyToTweet;
