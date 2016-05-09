@@ -99,14 +99,21 @@ function respondToTweet(incomingTweet) {
     );
 
     function getWords(getWordsDone) {
-      var opts = {
-        text: incomingTweet.text,
-        username: incomingTweet.user.screen_name,
-        maxCommonness: behavior.maxCommonness,
-        sublevelDb: db,
-        nounfinder: nounfinder
-      };
-      getInterestingWords(opts, getWordsDone);
+      // Once in a while, just use the entire tweet as one "word" to search for.
+      if (probable.roll(4) === 0) {
+        callNextTick(getWordsDone, null, [incomingTweet.text]);
+      }
+      else {
+        var opts = {
+          text: incomingTweet.text,
+          username: incomingTweet.user.screen_name,
+          maxCommonness: behavior.maxCommonness,
+          sublevelDb: db,
+          nounfinder: nounfinder
+        };
+
+        getInterestingWords(opts, getWordsDone);
+      }
     }
 
     function recordUseOfWord(imageConcept, recordDone) {
