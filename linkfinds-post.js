@@ -72,7 +72,7 @@ function postLinkFindingImage(linkResult, done) {
   };
 
   if (source === 'trending') {
-    postImageOpts.caption += ' #' + linkResult.concept;
+    postImageOpts.caption += ' #' + linkResult.concept.replace(' ', '');
   }
   postImage(postImageOpts, done);
 }
