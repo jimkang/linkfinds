@@ -28,7 +28,8 @@ function getLinkFindingImage(imageConceptResult, done) {
       width: width,
       height: height
     },
-    streamType: 'png'
+    streamType: 'png',
+    renderDelay: 1000
   };
 
   var renderStream =  webshot(url, webshotOpts);
