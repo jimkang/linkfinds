@@ -101,7 +101,8 @@ function respondToTweet(incomingTweet) {
     function getWords(getWordsDone) {
       // Once in a while, just use the entire tweet as one "word" to search for.
       if (probable.roll(4) === 0) {
-        callNextTick(getWordsDone, null, [incomingTweet.text]);
+        var tweetTextWithoutUsername = incomingTweet.text.replace('@' + username, '');
+        callNextTick(getWordsDone, null, [tweetTextWithoutUsername]);
       }
       else {
         var opts = {
