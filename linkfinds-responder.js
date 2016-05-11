@@ -148,7 +148,7 @@ function respondToTweet(incomingTweet) {
         in_reply_to_status_id: incomingTweet.id_str
       };
 
-      var optSummary = pick(postImageOpts, 'altText', caption, in_reply_to_status_id);
+      var optSummary = pick(postImageOpts, 'altText', 'caption', 'in_reply_to_status_id');
       optSummary.base64Image = postImageOpts.base64Image.substr(0, 30) + '[truncated]';
 
       console.log('Posting response', optSummary);
