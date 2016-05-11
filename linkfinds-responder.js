@@ -141,6 +141,8 @@ function respondToTweet(incomingTweet) {
       in_reply_to_status_id: incomingTweet.id_str
     };
 
+    console.log('Posting response', JSON.stringify(postImageOpts, null, '  '));
+
     postImage(postImageOpts, done);
   }
 
