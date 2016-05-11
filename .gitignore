@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 config.js
+test-config.js
 data/linkfinds-responses.db
 tests/integration/word-test.db
 tests/integration/image-output
+image-output
