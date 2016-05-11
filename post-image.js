@@ -1,5 +1,6 @@
 var request = require('request');
 var async = require('async');
+var pick = require('lodash.pick');
 
 // TODO: This could be in its own package.
 function postImage(opts, allDone) {
@@ -18,6 +19,17 @@ function postImage(opts, allDone) {
     caption = opts.caption;
     in_reply_to_status_id = opts.in_reply_to_status_id;
   }
+
+  if (base64Image.length < 10) {
+    callNextTick(
+      allDone, new Error('Received bad base64 image in postImage opts: ' + JSON.stringify(opts))
+    );
+    return;
+  }
+
+  var optSummary = pick(opts, 'altText', 'caption', 'in_reply_to_status_id');
+  optSummary.base64Image = postImageOpts.base64Image.substr(0, 30) + '[truncated]';
+  console.log('Posting image', optSummary);
 
   var mediaPostData;
 

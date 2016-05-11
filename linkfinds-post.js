@@ -65,25 +65,18 @@ function getConcepts(done) {
 }
 
 function postLinkFindingImage(linkResult, done) {
-  if (linkResult.base64Image.length < 10) {
-    callNextTick(
-      done, new Error('Received empty image in linkResult: ' + JSON.stringify(linkResult))
-    );
-  }
-  else {
-    var postImageOpts = {
-      twit: twit,
-      dryRun: dryRun,
-      base64Image: linkResult.base64Image,
-      altText: linkResult.concept,
-      caption: '♪ DOO DOO DOO DOO! ♪'
-    };
+  var postImageOpts = {
+    twit: twit,
+    dryRun: dryRun,
+    base64Image: linkResult.base64Image,
+    altText: linkResult.concept,
+    caption: '♪ DOO DOO DOO DOO! ♪'
+  };
 
-    if (source === 'trending') {
-      postImageOpts.caption += ' #' + linkResult.concept.replace(' ', '');
-    }
-    postImage(postImageOpts, done);
+  if (source === 'trending') {
+    postImageOpts.caption += ' #' + linkResult.concept.replace(' ', '');
   }
+  postImage(postImageOpts, done);
 }
 
 function wrapUp(error, data) {
