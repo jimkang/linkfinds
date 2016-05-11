@@ -132,18 +132,25 @@ function respondToTweet(incomingTweet) {
   }
 
   function postLinkFindingImageReply(linkResult, done) {
-    var postImageOpts = {
-      twit: twit,
-      dryRun: dryRun,
-      base64Image: linkResult.base64Image,
-      altText: linkResult.concept,
-      caption: '@' + incomingTweet.user.screen_name + ' ♪ DOO DOO DOO DOO! ♪',
-      in_reply_to_status_id: incomingTweet.id_str
-    };
+    if (linkResult.base64Image.length < 10) {
+      callNextTick(
+        done, new Error('Received empty image in linkResult: ' + JSON.stringify(linkResult))
+      );
+    }
+    else {
+      var postImageOpts = {
+        twit: twit,
+        dryRun: dryRun,
+        base64Image: linkResult.base64Image,
+        altText: linkResult.concept,
+        caption: '@' + incomingTweet.user.screen_name + ' ♪ DOO DOO DOO DOO! ♪',
+        in_reply_to_status_id: incomingTweet.id_str
+      };
 
-    console.log('Posting response', JSON.stringify(postImageOpts, null, '  '));
+      console.log('Posting response', postImageOpts);
 
-    postImage(postImageOpts, done);
+      postImage(postImageOpts, done);
+    }
   }
 
   function recordThatReplyHappened(tweetData, response, done) {

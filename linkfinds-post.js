@@ -65,18 +65,25 @@ function getConcepts(done) {
 }
 
 function postLinkFindingImage(linkResult, done) {
-  var postImageOpts = {
-    twit: twit,
-    dryRun: dryRun,
-    base64Image: linkResult.base64Image,
-    altText: linkResult.concept,
-    caption: '♪ DOO DOO DOO DOO! ♪'
-  };
-
-  if (source === 'trending') {
-    postImageOpts.caption += ' #' + linkResult.concept.replace(' ', '');
+  if (linkResult.base64Image.length < 10) {
+    callNextTick(
+      done, new Error('Received empty image in linkResult: ' + JSON.stringify(linkResult))
+    );
   }
-  postImage(postImageOpts, done);
+  else {
+    var postImageOpts = {
+      twit: twit,
+      dryRun: dryRun,
+      base64Image: linkResult.base64Image,
+      altText: linkResult.concept,
+      caption: '♪ DOO DOO DOO DOO! ♪'
+    };
+
+    if (source === 'trending') {
+      postImageOpts.caption += ' #' + linkResult.concept.replace(' ', '');
+    }
+    postImage(postImageOpts, done);
+  }
 }
 
 function wrapUp(error, data) {
