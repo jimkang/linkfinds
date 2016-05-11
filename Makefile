@@ -29,3 +29,9 @@ create-dirs:
 test:
 	node tests/integration/interesting-words-tests.js
 	node tests/integration/link-finding-images-tests.js
+
+run-multiple:
+	number=1 ; while [[ $$number -le 25 ]] ; do \
+		node linkfinds-post.js ; \
+		((number = number + 1)) ; \
+	done
