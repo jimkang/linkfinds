@@ -28,3 +28,4 @@ create-dirs:
 
 test:
 	node tests/integration/interesting-words-tests.js
+	node tests/integration/link-finding-images-tests.js
