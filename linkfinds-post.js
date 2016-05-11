@@ -12,12 +12,12 @@ var pluck = require('lodash.pluck');
 var source = 'wordnik';
 var dryRun = false;
 
-if (process.argv.length > 2 && process.argv[2].toLowerCase() === '--trending-source') {
-  source = 'trending';
-}
+if (process.argv.length > 2) {
+  if (process.argv[2].toLowerCase() === '--trending-source') {
+    source = 'trending';
+  }
 
-if (process.argv.length > 3) {
-  dryRun = (process.argv[3].toLowerCase() === '--dry');
+  dryRun = (process.argv.indexOf('--dry') !== -1);
 }
 
 var twit = new Twit(config.twitter);

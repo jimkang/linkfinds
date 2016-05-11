@@ -51,20 +51,21 @@ function postImage(opts, allDone) {
   }
 
   function postTweet(metaDataPostData,  response, done) {
+    var body = {
+      status: caption,
+      media_ids: [
+        mediaPostData.media_id_string
+      ]
+    };
+    if (in_reply_to_status_id) {
+      body.in_reply_to_status_id = in_reply_to_status_id;
+    }
+
     if (dryRun) {
-      console.log('Would have tweeted: using', opts);
+      console.log('Would have tweeted: using', JSON.stringify(body, null, '  '));
       callNextTick(done);
     }
     else {
-      var body = {
-        status: caption,
-        media_ids: [
-          mediaPostData.media_id_string
-        ]
-      };
-      if (in_reply_to_status_id) {
-        body.in_reply_to_status_id = in_reply_to_status_id;
-      }
       twit.post('statuses/update', body, done);
     }
   }
