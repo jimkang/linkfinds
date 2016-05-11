@@ -1,5 +1,5 @@
-// var config = require('./config');
-var config = require('./test-config');
+var config = require('./config');
+// var config = require('./test-config');
 
 var callNextTick = require('call-next-tick');
 var Twit = require('twit');
