@@ -18,6 +18,7 @@ var getInterestingWords = require('./get-interesting-words');
 var Nounfinder = require('nounfinder');
 var getImageFromConcepts = require('./get-image-from-concepts');
 var saveWordForUser = require('./save-word-for-user');
+var pick = require('lodash.pick');
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -147,7 +148,10 @@ function respondToTweet(incomingTweet) {
         in_reply_to_status_id: incomingTweet.id_str
       };
 
-      console.log('Posting response', postImageOpts);
+      var optSummary = pick(postImageOpts, 'altText', caption, in_reply_to_status_id);
+      optSummary.base64Image = postImageOpts.base64Image.substr(0, 30) + '[truncated]';
+
+      console.log('Posting response', optSummary);
 
       postImage(postImageOpts, done);
     }
