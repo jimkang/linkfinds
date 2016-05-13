@@ -28,8 +28,8 @@ function postImage(opts, allDone) {
   }
 
   var optSummary = pick(opts, 'altText', 'caption', 'in_reply_to_status_id');
-  optSummary.base64Image = base64Image.substr(0, 30) + '[truncated]';
-  console.log('Posting image', optSummary);
+  optSummary.base64Image = base64Image.substr(0, 40) + '[truncated]';
+  console.log('Posting image for', altText, JSON.stringify(optSummary));
 
   var mediaPostData;
 
@@ -50,6 +50,8 @@ function postImage(opts, allDone) {
   }
 
   function postMetadata(theMediaPostData, response, done) {
+    console.log('Posted media for', altText, JSON.stringify(theMediaPostData));
+
     // Save this for other functions in the above scope.
     mediaPostData = theMediaPostData;
 
@@ -62,7 +64,11 @@ function postImage(opts, allDone) {
     twit.post('media/metadata/create', metaParams, done);
   }
 
-  function postTweet(metaDataPostData,  response, done) {
+  // https://dev.twitter.com/rest/reference/post/media/metadata/create
+  // metaDataPostData will be empty if the metadata post was sucessful!
+  function postTweet(metaDataPostData, response, done) {
+    console.log('Successfully posted metadata. Now posting tweet for', altText);
+
     var body = {
       status: caption,
       media_ids: [
