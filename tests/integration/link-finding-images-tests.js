@@ -30,6 +30,37 @@ var testCases = [
   }
 ];
 
+console.log('You need to watch processes to make sure there\'s no more than maxSimultaneousWebshots pairs of phantomjs processes during the simultaneous tests!');
+test('Simultaneous request test', testSimultaneous);
+
+function testSimultaneous(t) {
+  var multiplier = 3;
+  for (var i = 0; i < multiplier; ++i) {
+    testCases.forEach(startGet);
+  }
+  
+  var numberOfResults = 0;
+
+  function startGet(testCase) {
+    getLinkFindingImage(testCase.imageConcept, accountForReturn);
+
+    function accountForReturn(error, linkResult) {
+      t.ok(!error, 'No error while getting Link-finding image.');
+      if (error) {
+        console.log(error, error.stack);
+      }
+      validateResult(linkResult, t, testCase, 'simultaneous', count);
+    }
+  }
+
+  function count() {
+    numberOfResults += 1;
+    if (numberOfResults === testCases.length * multiplier) {
+      t.end();
+    }
+  }
+}
+
 for (var i = 0; i < 10; ++i) {
   testCases.forEach(runTest);
 }
@@ -45,14 +76,18 @@ function runTest(testCase) {
       if (error) {
         console.log(error, error.stack);
       }
-      t.equal(linkResult.concept, testCase.imageConcept.concept, 'Result has a concept.');
-      t.ok(linkResult.base64Image.length > 0, 'Result has a base64Image string.');
-      var filename = 'image-output/test-' + testCase.name.replace(/[\s\:\/]/g, '-') +
-        '-' + imageCounter + '.png';
-      imageCounter += 1;
-      console.log('Writing out', filename);
-      console.log('You need to use your human eyes to visually inspect it.');
-      fs.writeFile(filename, linkResult.base64Image, 'base64', t.end);
+      validateResult(linkResult, t, testCase, 'test', t.end);
     }
   }
+}
+
+function validateResult(linkResult, t, testCase, prefix, done) {
+  t.equal(linkResult.concept, testCase.imageConcept.concept, 'Result has a concept.');
+  t.ok(linkResult.base64Image.length > 0, 'Result has a base64Image string.');
+  var filename = 'image-output/' + prefix + '-' + testCase.name.replace(/[\s\:\/]/g, '-') +
+    '-' + imageCounter + '.png';
+  imageCounter += 1;
+  console.log('Writing out', filename);
+  console.log('You need to use your human eyes to visually inspect it.');
+  fs.writeFile(filename, linkResult.base64Image, 'base64', done);
 }
