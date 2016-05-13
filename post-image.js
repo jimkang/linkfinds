@@ -29,7 +29,7 @@ function postImage(opts, allDone) {
   }
 
   var optSummary = pick(opts, 'altText', 'caption', 'in_reply_to_status_id');
-  optSummary.base64Image = base64Image.substr(0, 40) + '[truncated]';
+  optSummary.base64Image = base64Image;//.substr(0, 40) + '[truncated]';
   console.log('Posting image for', altText, JSON.stringify(optSummary));
 
   var mediaPostData;
