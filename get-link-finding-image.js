@@ -74,7 +74,8 @@ function runWebshot(queueId, imageConceptResult, done) {
     streamType: 'png',
     takeShotOnCallback: true,
     errorIfStatusIsNot200: true,
-    errorIfJSException: true
+    errorIfJSException: true,
+    timeout: 10 * 1000
   };
 
   var renderStream =  webshot(url, webshotOpts);
