@@ -34,7 +34,8 @@ function runNextWebshotInQueue() {
     console.log(
       'Not pulling off of queue.', 
       webshotsInProgress, 'webshots in progress.',
-      maxSimultaneousWebshots, 'max.'
+      maxSimultaneousWebshots, 'max.',
+      'webshotQueue size:', webshotQueue.length
     );
   }
 }
@@ -95,6 +96,7 @@ function runWebshot(queueId, imageConceptResult, done) {
 
     console.log('Completed webshot for', queueId, imageConceptResult);
     console.log('webshotsInProgress', webshotsInProgress);
+    console.log('webshotQueue size:', webshotQueue.length);
 
     done(null, result);
     runNextWebshotInQueue();
