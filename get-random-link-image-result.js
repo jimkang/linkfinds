@@ -4,6 +4,8 @@ var getLinkFindingImage = require('./get-link-finding-image');
 var createWordnok = require('wordnok').createWordnok;
 var pluck = require('lodash.pluck');
 var probable = require('probable');
+var iscool = require('iscool')();
+var splitToWords = require('split-to-words');
 
 function getRandomLinkImageResult(opts, allDone) {
   var source;
@@ -51,10 +53,16 @@ function getRandomLinkImageResult(opts, allDone) {
       }
       else {
         var trendNames = pluck(data[0].trends.slice(0, 10), 'name');
+        trendNames = trendNames.filter(trendNameIsCool);
         done(null, probable.shuffle(trendNames));
       }
     }
   }
+}
+
+function trendNameIsCool(trendName) {
+  var words = splitToWords(trendName);
+  return words.every(iscool);
 }
 
 module.exports = getRandomLinkImageResult;
