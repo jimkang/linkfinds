@@ -5,6 +5,7 @@ var pickFirstGoodURL = require('pick-first-good-url');
 var callNextTick = require('call-next-tick');
 var pluck = require('lodash.pluck');
 var findWhere = require('lodash.findwhere');
+var behavior = require('./behavior');
 
 function getImageFromConcepts(concepts, allDone) {
   var result;
@@ -25,7 +26,9 @@ function getImageFromConcepts(concepts, allDone) {
         done(null, false);
       }
       else {
-        var imageResults = probable.shuffle(results.slice(0, 10));
+        var imageResults = probable.shuffle(
+          results.slice(0, behavior.numberOfImageResultToConsider)
+        );
         var pickOpts = {
           urls: pluck(imageResults, 'url'),
           responseChecker: isImageMIMEType
