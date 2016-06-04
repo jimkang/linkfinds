@@ -26,6 +26,9 @@ install-service:
 	$(PRIVSSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
 	systemctl enable $(PROJECTNAME)"
 
+stop-remote:
+	$(PRIVSSHCMD) "service $(PROJECTNAME) stop"
+
 check-status:
 	$(SSHCMD) "systemctl status $(PROJECTNAME)"
 
