@@ -1,29 +1,38 @@
-HOMEDIR = $(shell pwd)
-SSHCMD = ssh $(SMUSER)@smidgeo-headporters
 PROJECTNAME = linkfinds
-APPDIR = /var/apps/$(PROJECTNAME)
+HOMEDIR = $(shell pwd)
+USER = bot
+PRIVUSER = root
+SERVER = smallcatlabs
+SSHCMD = ssh $(USER)@$(SERVER)
+PRIVSSHCMD = ssh $(PRIVUSER)@$(SERVER)
+APPDIR = /opt/$(PROJECTNAME)
 
-pushall: update-remote
+pushall: sync set-permissions restart-remote
 	git push origin master
 
 sync:
-	rsync -a $(HOMEDIR) $(SMUSER)@smidgeo-headporters:/var/apps/ --exclude node_modules/ --exclude data/
-	ssh $(SMUSER)@smidgeo-headporters "cd /var/apps/$(PROJECTNAME) && npm install"
-
-restart-remote:
-	$(SSHCMD) "systemctl restart $(PROJECTNAME)"
+	rsync -a $(HOMEDIR) $(USER)@$(SERVER):/opt/ --exclude node_modules/ --exclude data/
+	$(SSHCMD) "cd $(APPDIR) && npm install"
 
 set-permissions:
-	$(SSHCMD) "chmod +x $(APPDIR)/linkfinds-responder.js && \
-	chmod 777 -R $(APPDIR)/data/linkfinds-responses.db"
+	$(SSHCMD) "chmod +x $(APPDIR)/$(PROJECTNAME)-responder.js"
 
 update-remote: sync set-permissions restart-remote
 
-install-service:
-	$(SSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
-	systemctl daemon-reload"
+restart-remote:
+	$(PRIVSSHCMD) "service $(PROJECTNAME) restart"
 
-create-dirs:
+install-service:
+	$(PRIVSSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
+	systemctl enable $(PROJECTNAME)"
+
+check-status:
+	$(SSHCMD) "systemctl status $(PROJECTNAME)"
+
+check-log:
+	$(SSHCMD) "journalctl -r -u $(PROJECTNAME)"
+
+make-data-dir:
 	$(SSHCMD) "mkdir -p $(APPDIR)/data"
 
 test: start-local-photo-booth-server
