@@ -27,6 +27,7 @@ create-dirs:
 	$(SSHCMD) "mkdir -p $(APPDIR)/data"
 
 test: start-local-photo-booth-server
+	rm -rf image-output/*
 	node tests/integration/interesting-words-tests.js
 	node tests/integration/link-finding-images-tests.js
 	make stop-local-photo-booth-server

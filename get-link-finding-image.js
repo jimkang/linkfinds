@@ -24,7 +24,8 @@ function GetLinkFindingImage(opts) {
       method: 'GET',
       url: getPhotoBoothURL(imageConceptResult, linkFindingURL)
     };
-    debugger;
+    console.log('Making request to', reqOpts.url);
+
     var reqStream = request(reqOpts);
   
     reqStream.on('error', passError);
@@ -36,8 +37,6 @@ function GetLinkFindingImage(opts) {
     }
 
     function passImageAndConcept() {
-      debugger;
-
       var result = {
         base64Image: base64Image,
         concept: imageConceptResult.concept
@@ -54,15 +53,27 @@ function GetLinkFindingImage(opts) {
 
   function getPhotoBoothURL(imageConceptResult, linkFindingURL) {
     var photoBoothURL = `${serverBaseURL}${encodeURIComponent(linkFindingURL)}`;
+
+    var queryString = '';
+
     if (imageConceptResult.width) {
-      photoBoothURL += `?width=${imageConceptResult.width}`;
+      queryString += `width=${imageConceptResult.width}`;
     }
-    if (imageConceptResult.width && imageConceptResult.height) {
-      photoBoothURL += `&`;
+    if (queryString.length > 0) {
+      queryString += `&`;
     }
     if (imageConceptResult.height) {
-      photoBoothURL += `height${imageConceptResult.height}`;
+      queryString += `height${imageConceptResult.height}`;
     }
+    if (queryString.length > 0) {
+      queryString += `&`;
+    }
+    queryString += 'takeShotOnCallback=true';
+
+    if (queryString) {
+      photoBoothURL += '?' + queryString;
+    }
+
     return photoBoothURL;  
   }  
 }

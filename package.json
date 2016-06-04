@@ -20,7 +20,7 @@
   "devDependencies": {
     "rimraf": "^2.5.2",
     "tape": "^3.0.3",
-    "web-photo-booth": "^1.0.3"
+    "web-photo-booth": "^1.1.0"
   },
   "dependencies": {
     "async": "^2.0.0-rc.3",
