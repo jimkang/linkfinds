@@ -1,4 +1,6 @@
 const request = require('request');
+const callNextTick = require('call-next-tick');
+
 const baseLinkRenderURL = 'http://jimkang.com/link-finding/#/thing/';
 // var baseLinkRenderURL = 'http://localhost:9966/#/thing/';
 const maxLinkWidth = 56;
@@ -18,38 +20,20 @@ function GetLinkFindingImage(opts) {
 
   function getLinkFindingImage(imageConceptResult, done) {
     var linkFindingURL = getLinkFindingURL(imageConceptResult);
-    var base64Image = '';
+
+    // TODO: Maybe further queuing to prevent there from being too many open requests?
 
     var reqOpts = {
       method: 'GET',
       url: getPhotoBoothURL(imageConceptResult, linkFindingURL)
     };
-    debugger;
-    var reqStream = request(reqOpts);
-  
-    reqStream.on('error', passError);
-    reqStream.on('end', passImageAndConcept);
-    reqStream.on('data', saveToBase64Image);
 
-    function saveToBase64Image(data) {
-      base64Image += data.toString('base64');
-    }
+    var result = {
+      imageStream: request(reqOpts),
+      concept: imageConceptResult.concept
+    };
 
-    function passImageAndConcept() {
-      debugger;
-
-      var result = {
-        base64Image: base64Image,
-        concept: imageConceptResult.concept
-      };
-
-      done(null, result);
-    }
-
-    function passError(error) {
-      // The stream will not emit the end event at this point.
-      done(error);
-    }
+    callNextTick(done, null, result);
   }
 
   function getPhotoBoothURL(imageConceptResult, linkFindingURL) {

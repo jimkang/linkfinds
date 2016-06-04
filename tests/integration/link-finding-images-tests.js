@@ -47,6 +47,13 @@ function testSimultaneous(t) {
   
   var numberOfResults = 0;
 
+  function count() {
+    numberOfResults += 1;
+    if (numberOfResults === testCases.length * multiplier) {
+      t.end();
+    }
+  }
+
   function startGet(testCase) {
     getLinkFindingImage(testCase.imageConcept, accountForReturn);
 
@@ -55,45 +62,30 @@ function testSimultaneous(t) {
       if (error) {
         console.log(error, error.stack);
       }
-      validateResult(linkResult, t, testCase, 'simultaneous', count);
+      validateResult(linkResult, testCase, 'simultaneous', count);
     }
   }
 
-  function count() {
-    numberOfResults += 1;
-    if (numberOfResults === testCases.length * multiplier) {
-      t.end();
+  function validateResult(linkResult, testCase, prefix, done) {
+    t.equal(linkResult.concept, testCase.imageConcept.concept, 'Result has a concept.');
+    t.ok(linkResult.imageStream, 'Result has an imageStream.');
+
+    var filename = 'image-output/' + prefix + '-' + testCase.name.replace(/[\s\:\/]/g, '-') +
+      '-' + imageCounter + '.png';
+    imageCounter += 1;
+    console.log('Starting write of', filename);
+    console.log('You need to use your human eyes to visually inspect it when it\'s done.');
+    // fs.writeFile(filename, linkResult.base64Image, 'base64', done);
+
+    linkResult.imageStream.on('error', checkError);
+    linkResult.imageStream.on('end', count);
+    linkResult.imageStream.pipe(fs.createWriteStream(filename));
+  }
+
+  function checkError(error) {
+    t.fail('No error while getting image.');
+    if (error) {
+      console.log(error, error.stack);
     }
   }
-}
-
-for (var i = 0; i < 3; ++i) {
-  testCases.forEach(runTest);
-}
-
-function runTest(testCase) {
-  test(testCase.name, testLinkFindingImage);
-
-  function testLinkFindingImage(t) {
-    getLinkFindingImage(testCase.imageConcept, checkFinding);
-
-    function checkFinding(error, linkResult) {
-      t.ok(!error, 'No error while getting Link-finding image.');
-      if (error) {
-        console.log(error, error.stack);
-      }
-      validateResult(linkResult, t, testCase, 'test', t.end);
-    }
-  }
-}
-
-function validateResult(linkResult, t, testCase, prefix, done) {
-  t.equal(linkResult.concept, testCase.imageConcept.concept, 'Result has a concept.');
-  t.ok(linkResult.base64Image.length > 0, 'Result has a base64Image string.');
-  var filename = 'image-output/' + prefix + '-' + testCase.name.replace(/[\s\:\/]/g, '-') +
-    '-' + imageCounter + '.png';
-  imageCounter += 1;
-  console.log('Writing out', filename);
-  console.log('You need to use your human eyes to visually inspect it.');
-  fs.writeFile(filename, linkResult.base64Image, 'base64', done);
 }

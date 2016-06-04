@@ -40,7 +40,8 @@ function postLinkFindingImage(linkResult, done) {
   var postImageOpts = {
     twit: twit,
     dryRun: dryRun,
-    base64Image: linkResult.base64Image,
+    // base64Image: linkResult.base64Image,
+    imageStream: linkResult.imageStream,
     altText: linkResult.concept,
     caption: '♪ DOO DOO DOO DOO! ♪'
   };
