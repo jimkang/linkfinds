@@ -26,12 +26,20 @@ install-service:
 create-dirs:
 	$(SSHCMD) "mkdir -p $(APPDIR)/data"
 
-test:
+test: start-local-photo-booth-server
 	node tests/integration/interesting-words-tests.js
 	node tests/integration/link-finding-images-tests.js
+	make stop-local-photo-booth-server
 
 run-multiple:
 	number=1 ; while [[ $$number -le 25 ]] ; do \
 		node linkfinds-post.js ; \
 		((number = number + 1)) ; \
 	done
+
+start-local-photo-booth-server:
+	{ node node_modules/web-photo-booth/tools/start-server.js & \
+	 echo $$!  > test-photobooth-pid.txt; }
+
+stop-local-photo-booth-server:
+	kill $(shell cat test-photobooth-pid.txt)

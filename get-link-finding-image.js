@@ -1,111 +1,84 @@
-var webshot = require('webshot');
-var randomId = require('idmaker').randomId;
-
-var baseLinkRenderURL = 'http://jimkang.com/link-finding/#/thing/';
+const request = require('request');
+const baseLinkRenderURL = 'http://jimkang.com/link-finding/#/thing/';
 // var baseLinkRenderURL = 'http://localhost:9966/#/thing/';
-var maxLinkWidth = 56;
-var linkHeight = 64;
-var linkMarginLeft = 32;
+const maxLinkWidth = 56;
+const linkHeight = 64;
+const linkMarginLeft = 32;
 
-var maxSimultaneousWebshots = 1;
-var webshotsInProgress = 0;
+function GetLinkFindingImage(opts) {
+  var config;
 
-var webshotQueue = [];
-
-function queueWebshot(imageConceptResult, callback) {
-  var queueItem = {
-    id: randomId(4),
-    imageConceptResult: imageConceptResult,
-    callback: callback
-  };
-  webshotQueue.push(queueItem);
-}
-
-function runNextWebshotInQueue() {
-  if (webshotQueue.length < 1) {
-    console.log('No more webshots in queue!');
-  }
-  else if (webshotsInProgress < maxSimultaneousWebshots) {
-    console.log('Pulling webshot off of queue.');
-    var queueItem = webshotQueue.shift();
-    runWebshot(queueItem.id, queueItem.imageConceptResult, queueItem.callback);
-  }
-  else {
-    console.log(
-      'Not pulling off of queue.', 
-      webshotsInProgress, 'webshots in progress.',
-      maxSimultaneousWebshots, 'max.',
-      'webshotQueue size:', webshotQueue.length
-    );
-  }
-}
-
-function getLinkFindingImage(imageConceptResult, done) {
-  queueWebshot(imageConceptResult, done);
-  runNextWebshotInQueue();
-}
-
-function runWebshot(queueId, imageConceptResult, done) {
-  webshotsInProgress += 1;
-  console.log('running webshot for', queueId, imageConceptResult);
-  console.log('webshotsInProgress', webshotsInProgress);
-
-  var url = baseLinkRenderURL + encodeURIComponent(imageConceptResult.imgurl);
-  url += '/desc/' + imageConceptResult.concept;
-  url += '/width/' + imageConceptResult.width + '/height/' + imageConceptResult.height;
-  // console.log('url', url);
-
-  var base64Image = '';
-  var width = imageConceptResult.width;
-  if (width < maxLinkWidth + linkMarginLeft) {
-    width = maxLinkWidth + linkMarginLeft;
-  }
-  var height = imageConceptResult.height + linkHeight;
-
-  var webshotOpts = {
-    screenSize: {
-      width: width,
-      height: height
-    },
-    shotSize: {
-      width: width,
-      height: height
-    },
-    streamType: 'png',
-    takeShotOnCallback: true,
-    errorIfStatusIsNot200: true,
-    errorIfJSException: true,
-    timeout: 10 * 1000
-  };
-
-  var renderStream =  webshot(url, webshotOpts);
-  renderStream.on('data', saveToBase64Image);
-  renderStream.on('end', passImageAndConcept);
-  renderStream.on('error', passError);
-
-  function saveToBase64Image(data) {
-    base64Image += data.toString('base64');
+  if (opts) {
+    config = opts.config;
   }
 
-  function passImageAndConcept() {
-    var result = {
-      base64Image: base64Image,
-      concept: imageConceptResult.concept
+  const serverBaseURL = `http://${config.webPhotoBooth.serverDomain}:${config.webPhotoBooth.port}/shoot/`;
+
+  return getLinkFindingImage;
+
+  function getLinkFindingImage(imageConceptResult, done) {
+    var linkFindingURL = getLinkFindingURL(imageConceptResult);
+    var base64Image = '';
+    
+    var reqOpts = {
+      method: 'GET',
+      url: getPhotoBoothURL(imageConceptResult, linkFindingURL)
     };
+    var reqStream = request(reqOpts);
+  debugger;
 
-    webshotsInProgress -= 1;
+    reqStream.on('error', passError);
+    reqStream.on('end', passImageAndConcept);
+    reqStream.on('data', saveToBase64Image);
 
-    console.log('Completed webshot for', queueId, imageConceptResult);
-    console.log('webshotsInProgress', webshotsInProgress);
-    console.log('webshotQueue size:', webshotQueue.length);
+    function saveToBase64Image(data) {
+      base64Image += data.toString('base64');
+    }
 
-    done(null, result);
-    runNextWebshotInQueue();
+    function passImageAndConcept() {
+      debugger;
+
+      var result = {
+        base64Image: base64Image,
+        concept: imageConceptResult.concept
+      };
+
+      done(null, result);
+    }
+
+    function passError(error) {
+      // The stream will not emit the end event at this point.
+      done(error);
+    }
   }
 
-  function passError(error) {
-    done(error);
-  }
+  function getPhotoBoothURL(imageConceptResult, linkFindingURL) {
+    var photoBoothURL = `${serverBaseURL}${encodeURIComponent(linkFindingURL)}`;
+    if (imageConceptResult.width) {
+      photoBoothURL += `?width=${imageConceptResult.width}`;
+    }
+    if (imageConceptResult.width && imageConceptResult.height) {
+      photoBoothURL = `&`;
+    }
+    if (imageConceptResult.height) {
+      photoBoothURL = `height${imageConceptResult.height}`;
+    }
+    return photoBoothURL;  
+  }  
 }
 
-module.exports = getLinkFindingImage;
+function getLinkFindingURL(imageConceptResult) {
+  linkFindingURL = baseLinkRenderURL;
+  linkFindingURL += encodeURIComponent(imageConceptResult.imgurl);
+  linkFindingURL += '/desc/' + imageConceptResult.concept;
+
+  if (imageConceptResult.width) {
+    linkFindingURL += '/width/' + imageConceptResult.width;
+  }
+  if (imageConceptResult.height) {
+    linkFindingURL += '/height/' + imageConceptResult.height;
+  }
+  return linkFindingURL;
+}
+
+module.exports = GetLinkFindingImage;

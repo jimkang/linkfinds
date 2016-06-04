@@ -1,6 +1,12 @@
 var test = require('tape');
-var getLinkFindingImage = require('../../get-link-finding-image');
+var GetLinkFindingImage = require('../../get-link-finding-image');
 var fs = require('fs');
+const config = require('../../test-config');
+
+const getLinkFindingImage = GetLinkFindingImage({
+  config: config
+});
+
 
 var imageCounter = 0;
 
