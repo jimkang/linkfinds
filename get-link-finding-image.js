@@ -19,14 +19,14 @@ function GetLinkFindingImage(opts) {
   function getLinkFindingImage(imageConceptResult, done) {
     var linkFindingURL = getLinkFindingURL(imageConceptResult);
     var base64Image = '';
-    
+
     var reqOpts = {
       method: 'GET',
       url: getPhotoBoothURL(imageConceptResult, linkFindingURL)
     };
+    debugger;
     var reqStream = request(reqOpts);
-  debugger;
-
+  
     reqStream.on('error', passError);
     reqStream.on('end', passImageAndConcept);
     reqStream.on('data', saveToBase64Image);
@@ -58,10 +58,10 @@ function GetLinkFindingImage(opts) {
       photoBoothURL += `?width=${imageConceptResult.width}`;
     }
     if (imageConceptResult.width && imageConceptResult.height) {
-      photoBoothURL = `&`;
+      photoBoothURL += `&`;
     }
     if (imageConceptResult.height) {
-      photoBoothURL = `height${imageConceptResult.height}`;
+      photoBoothURL += `height${imageConceptResult.height}`;
     }
     return photoBoothURL;  
   }  

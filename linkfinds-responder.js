@@ -12,7 +12,7 @@ var probable = require('probable');
 var getImagesFromTweet = require('get-images-from-tweet');
 var pathExists = require('object-path-exists');
 var postImage = require('./post-image');
-var getLinkFindingImage = require('./get-link-finding-image');
+var GetLinkFindingImage = require('./get-link-finding-image');
 var saveWordForUser = require('./save-word-for-user');
 var getInterestingWords = require('./get-interesting-words');
 var Nounfinder = require('nounfinder');
@@ -23,6 +23,10 @@ var dryRun = false;
 if (process.argv.length > 2) {
   dryRun = (process.argv[2].toLowerCase() == '--dry');
 }
+
+const getLinkFindingImage = GetLinkFindingImage({
+  config: config
+});
 
 var db = Sublevel(level(__dirname + '/data/linkfinds-responses.db'));
 var lastReplyDates = db.sublevel('last-reply-dates');

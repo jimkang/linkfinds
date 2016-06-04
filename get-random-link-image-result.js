@@ -1,6 +1,6 @@
 var async = require('async');
 var getImageFromConcepts = require('./get-image-from-concepts');
-var getLinkFindingImage = require('./get-link-finding-image');
+var GetLinkFindingImage = require('./get-link-finding-image');
 var createWordnok = require('wordnok').createWordnok;
 var pluck = require('lodash.pluck');
 var probable = require('probable');
@@ -17,6 +17,10 @@ function getRandomLinkImageResult(opts, allDone) {
     twit = opts.twit;
     config = opts.config;
   }
+
+  const getLinkFindingImage = GetLinkFindingImage({
+    config: config
+  });
 
   var wordnok = createWordnok({
     apiKey: config.wordnikAPIKey
