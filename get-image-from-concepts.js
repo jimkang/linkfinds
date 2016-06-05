@@ -6,6 +6,7 @@ var callNextTick = require('call-next-tick');
 var pluck = require('lodash.pluck');
 var findWhere = require('lodash.findwhere');
 var behavior = require('./behavior');
+var pathExists = require('object-path-exists');
 
 function getImageFromConcepts(concepts, allDone) {
   var result;
@@ -71,9 +72,14 @@ function getImageFromConcepts(concepts, allDone) {
 }
 
 function isImageMIMEType(response, done) {
-  callNextTick(
-    done, null, response.headers['content-type'].indexOf('image/') === 0
-  );
+  if (pathExists(response, ['headers', 'content-type'])) {
+    callNextTick(
+      done, null, response.headers['content-type'].indexOf('image/') === 0
+    );
+  }
+  else {
+    callNextTick(done, null, false);
+  }
 }
 
 module.exports = getImageFromConcepts;
