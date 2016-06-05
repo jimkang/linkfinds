@@ -7,9 +7,11 @@ const linkMarginLeft = 32;
 
 function GetLinkFindingImage(opts) {
   var config;
+  var composeLinkScene;
 
   if (opts) {
     config = opts.config;
+    composeLinkScene = opts.composeLinkScene;
   }
 
   const serverBaseURL = `http://${config.webPhotoBooth.serverDomain}:${config.webPhotoBooth.port}/shoot/`;
@@ -20,25 +22,36 @@ function GetLinkFindingImage(opts) {
     var linkFindingURL = getLinkFindingURL(imageConceptResult);
     var base64Image = '';
 
-    var reqOpts = {
-      method: 'GET',
-      url: getPhotoBoothURL(imageConceptResult, linkFindingURL)
+    var composeOpts = {
+      thingURL: imageConceptResult.imgurl
     };
-    console.log('Making request to', reqOpts.url);
+    composeLinkScene(composeOpts, passImageAndConcept);
 
-    var reqStream = request(reqOpts);
+    // var reqOpts = {
+    //   method: 'GET',
+    //   url: getPhotoBoothURL(imageConceptResult, linkFindingURL)
+    // };
+    // console.log('Making request to', reqOpts.url);
+
+    // var reqStream = request(reqOpts);
   
-    reqStream.on('error', passError);
-    reqStream.on('end', passImageAndConcept);
-    reqStream.on('data', saveToBase64Image);
+    // reqStream.on('error', passError);
+    // reqStream.on('end', passImageAndConcept);
+    // reqStream.on('data', saveToBase64Image);
 
-    function saveToBase64Image(data) {
-      base64Image += data.toString('base64');
-    }
+    // function saveToBase64Image(data) {
+    //   base64Image += data.toString('base64');
+    // }
 
-    function passImageAndConcept() {
+    function passImageAndConcept(error, image) {
+      if (error) {
+        done(error);
+        return;
+      }
+
+      debugger;
       var result = {
-        base64Image: base64Image,
+        base64Image: image.toString('base64'),
         concept: imageConceptResult.concept
       };
 

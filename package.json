@@ -32,6 +32,7 @@
     "g-i-s": "^2.0.0",
     "get-images-from-tweet": "^1.0.0",
     "iscool": "^1.1.17",
+    "jimp": "^0.2.24",
     "level": "^1.4.0",
     "level-sublevel": "^6.5.4",
     "lodash.compact": "^3.0.1",

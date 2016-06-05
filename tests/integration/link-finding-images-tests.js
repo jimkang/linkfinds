@@ -3,12 +3,26 @@ var GetLinkFindingImage = require('../../get-link-finding-image');
 var fs = require('fs');
 const config = require('../../test-config');
 
-const getLinkFindingImage = GetLinkFindingImage({
-  config: config
-});
+const ComposeLinkScene = require('../../compose-link-scene');
 
-
+var getLinkFindingImage;
 var imageCounter = 0;
+
+ComposeLinkScene(null, kickOffTests);
+
+function kickOffTests(error, composeLinkScene) {
+  if (error) {
+    throw error;
+  }
+
+  getLinkFindingImage = GetLinkFindingImage({
+    config: config,
+    composeLinkScene
+  });
+
+  console.log('You need to watch processes to make sure there\'s no more than maxSimultaneousWebshots pairs of phantomjs processes during the simultaneous tests!');
+  test('Simultaneous request test', testSimultaneous);
+}
 
 var testCases = [
   {
@@ -19,14 +33,14 @@ var testCases = [
     },
     expected: {}
   },
-  {
-    name: 'animated-gif',
-    imageConcept: {
-      imgurl: 'https://67.media.tumblr.com/8df6cc88c7cdb1aab0ef8749e91b983a/tumblr_inline_o66spiQOEh1rjllea_540.gif',
-      concept: 'test'
-    },
-    expected: {}
-  },
+  // {
+  //   name: 'animated-gif',
+  //   imageConcept: {
+  //     imgurl: 'https://67.media.tumblr.com/8df6cc88c7cdb1aab0ef8749e91b983a/tumblr_inline_o66spiQOEh1rjllea_540.gif',
+  //     concept: 'test'
+  //   },
+  //   expected: {}
+  // },
   {
     name: 'Blank https://twitter.com/linkfinds/status/730341827883192320',
     imageConcept: {
@@ -35,9 +49,6 @@ var testCases = [
     }
   }
 ];
-
-console.log('You need to watch processes to make sure there\'s no more than maxSimultaneousWebshots pairs of phantomjs processes during the simultaneous tests!');
-test('Simultaneous request test', testSimultaneous);
 
 function testSimultaneous(t) {
   var multiplier = 3;
@@ -63,26 +74,6 @@ function testSimultaneous(t) {
     numberOfResults += 1;
     if (numberOfResults === testCases.length * multiplier) {
       t.end();
-    }
-  }
-}
-
-for (var i = 0; i < 3; ++i) {
-  testCases.forEach(runTest);
-}
-
-function runTest(testCase) {
-  test(testCase.name, testLinkFindingImage);
-
-  function testLinkFindingImage(t) {
-    getLinkFindingImage(testCase.imageConcept, checkFinding);
-
-    function checkFinding(error, linkResult) {
-      t.ok(!error, 'No error while getting Link-finding image.');
-      if (error) {
-        console.log(error, error.stack);
-      }
-      validateResult(linkResult, t, testCase, 'test', t.end);
     }
   }
 }
