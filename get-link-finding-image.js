@@ -81,7 +81,7 @@ function GetLinkFindingImage(opts) {
 function getLinkFindingURL(imageConceptResult) {
   linkFindingURL = baseLinkRenderURL;
   linkFindingURL += encodeURIComponent(imageConceptResult.imgurl);
-  linkFindingURL += '/desc/' + imageConceptResult.concept;
+  linkFindingURL += '/desc/' + imageConceptResult.concept.trim();
 
   if (imageConceptResult.width) {
     linkFindingURL += '/width/' + imageConceptResult.width;
