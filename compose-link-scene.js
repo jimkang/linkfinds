@@ -59,7 +59,6 @@ function ComposeLinkScene(createOpts, createDone) {
         (sceneSizeInTiles[0]/2 - 0.5) * tileSize,
         thingPositionPixels[1] + thing.bitmap.height
       ];
-      console.log('thingPositionPixels[1] ', thingPositionPixels[1], 'getImageTileSize(thing)[1]', getImageTileSize(thing)[1]);
 
       var pasteOpts = {
         background: {
@@ -69,7 +68,7 @@ function ComposeLinkScene(createOpts, createDone) {
         },
         images: [
           {
-            cacheId: 'link-one-arm-up',
+            cacheId: probable.roll(5) === 0 ? 'link-both-arms-up' : 'link-one-arm-up',
             x: linkPositionPixels[0],
             y: linkPositionPixels[1]
           },
