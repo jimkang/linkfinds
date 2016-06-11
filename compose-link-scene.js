@@ -2,9 +2,10 @@ const async = require('async');
 const queue = require('d3-queue').queue;
 const Jimp = require('jimp');
 const PasteBitmaps = require('paste-bitmaps');
-
+const probable = require('probable');
 const maxLinkWidth = 56;
-const linkHeight = 64;
+const tileSize = 64;
+const linkHeight = tileSize;
 const margin = 32;
 const minSceneWidth = maxLinkWidth + 2 * margin;
 const minSceneHeight = linkHeight + 2 * margin;
@@ -52,32 +53,30 @@ function ComposeLinkScene(createOpts, createDone) {
     Jimp.read(thingURL, makeSceneWithThing);
 
     function makeSceneWithThing(error, thing) {
-      var sceneWidth = thing.bitmap.width + 2 * margin;
-      if (sceneWidth < minSceneWidth) {
-        sceneWidth = minSceneWidth;
-      }
-
-      var sceneHeight = thing.bitmap.height + 2 * margin + linkHeight;
-      if (sceneHeight < minSceneHeight) {
-        sceneHeight = minSceneHeight;
-      }
+      const sceneSizeInTiles = determineSceneSizeInTiles(thing);
+      const thingPositionPixels = determinethingPositionInPixels(thing, sceneSizeInTiles);
+      const linkPositionPixels = [
+        (sceneSizeInTiles[0]/2 - 0.5) * tileSize,
+        thingPositionPixels[1] + thing.bitmap.height
+      ];
+      console.log('thingPositionPixels[1] ', thingPositionPixels[1], 'getImageTileSize(thing)[1]', getImageTileSize(thing)[1]);
 
       var pasteOpts = {
         background: {
-          width: sceneWidth,
-          height: sceneHeight,
+          width: sceneSizeInTiles[0] * tileSize,
+          height: sceneSizeInTiles[1] * tileSize,
           fill: 0XFEDBABFF // TODO: Vary
         },
         images: [
           {
             cacheId: 'link-one-arm-up',
-            x: ~~(sceneWidth/2) - maxLinkWidth/2,
-            y: sceneHeight - margin - linkHeight
+            x: linkPositionPixels[0],
+            y: linkPositionPixels[1]
           },
           {
             jimpImage: thing,
-            x: margin,
-            y: margin
+            x: thingPositionPixels[0],
+            y: thingPositionPixels[1]
           }
         ]
       };
@@ -95,6 +94,40 @@ function getPathsForCacheIdsMap(ids) {
   function addToMap(id) {
     map[id] = __dirname + `/static/${id}.png`;
   }
+}
+
+function determineSceneSizeInTiles(thing) {
+  const thingTileSize = getImageTileSize(thing);
+
+  // Average to 16x11.
+  var sceneWidth = 4 + probable.roll(13) + probable.roll(13);
+  var sceneHeight = 4 + probable.roll(8) + probable.roll(8)
+
+  if (sceneWidth < thingTileSize[0] + 2) {
+    sceneWidth = thingTileSize[0] + 2;
+  }
+
+  if (sceneHeight < thingTileSize[1] + 2) {
+    sceneHeight = thingTileSize[1] + 2;
+  }
+  return [sceneWidth, sceneHeight];
+}
+
+function getImageTileSize(image) {
+  return [
+    Math.ceil(image.bitmap.width/tileSize),
+    Math.ceil(image.bitmap.height/tileSize)
+  ];
+}
+
+function determinethingPositionInPixels(thing, sceneSizeInTiles) {
+  const heightIncludingLink = thing.bitmap.height + tileSize;
+  const freeVerticalSpace = sceneSizeInTiles[1] * tileSize - heightIncludingLink;
+
+  return [
+    ~~((sceneSizeInTiles[0] * tileSize)/2 - thing.bitmap.width/2),
+    ~~(freeVerticalSpace/2)
+  ];
 }
 
 module.exports = ComposeLinkScene;
