@@ -1,6 +1,4 @@
 const request = require('request');
-const baseLinkRenderURL = 'http://jimkang.com/link-finding/#/thing/';
-// var baseLinkRenderURL = 'http://localhost:9966/#/thing/';
 const maxLinkWidth = 56;
 const linkHeight = 64;
 const linkMarginLeft = 32;
@@ -19,7 +17,7 @@ function GetLinkFindingImage(opts) {
   return getLinkFindingImage;
 
   function getLinkFindingImage(imageConceptResult, done) {
-    var linkFindingURL = getLinkFindingURL(imageConceptResult);
+    // var linkFindingURL = getLinkFindingURL(imageConceptResult);
     var base64Image = '';
 
     var composeOpts = {
@@ -89,20 +87,6 @@ function GetLinkFindingImage(opts) {
 
     return photoBoothURL;  
   }  
-}
-
-function getLinkFindingURL(imageConceptResult) {
-  linkFindingURL = baseLinkRenderURL;
-  linkFindingURL += encodeURIComponent(imageConceptResult.imgurl);
-  linkFindingURL += '/desc/' + encodeURIComponent(imageConceptResult.concept.trim());
-
-  if (imageConceptResult.width) {
-    linkFindingURL += '/width/' + imageConceptResult.width;
-  }
-  if (imageConceptResult.height) {
-    linkFindingURL += '/height/' + imageConceptResult.height;
-  }
-  return linkFindingURL;
 }
 
 module.exports = GetLinkFindingImage;

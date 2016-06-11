@@ -1,6 +1,7 @@
-const Jimp = require('jimp');
 const async = require('async');
 const queue = require('d3-queue').queue;
+const Jimp = require('jimp');
+const PasteBitmaps = require('paste-bitmaps');
 
 const maxLinkWidth = 56;
 const linkHeight = 64;
@@ -24,107 +25,76 @@ const assetsToPreload = [
 ];
 
 function ComposeLinkScene(createOpts, createDone) {
-  var assetsForIds = {};
+  var pasteBitmaps;  
+  var pasteConfig = {
+    pathsToFilesToCache: getPathsForCacheIdsMap(assetsToPreload)
+  };
+  PasteBitmaps(pasteConfig, passComposeFn);
 
-  function passComposeFn(error) {
+  function passComposeFn(error, thePasteBitmapsFn) {
     if (error) {
       createDone(error);
     }
     else {
+      pasteBitmaps = thePasteBitmapsFn;
       createDone(null, composeLinkScene);
-    }
-  }
-
-  function loadAsset(id, done) {
-    Jimp.read(__dirname + `/static/${id}.png`, saveAsset);
-
-    function saveAsset(error, asset) {
-      if (error) {
-        done(error);
-      }
-      else {
-        assetsForIds[id] = asset;
-        done();
-      }
     }
   }
 
   function composeLinkScene(opts, sceneDone) {
     var thingURL;
-    var thing;
     var scene;
-    var sceneWidth;
-    var sceneHeight;
 
     if (opts) {
       thingURL = opts.thingURL;
     }
 
-    async.waterfall(
-      [
-        loadThing,
-        createImage,
-        addLink,
-        addThing,
-        sendBuffer
-      ],
-      sceneDone
-    );
+    Jimp.read(thingURL, makeSceneWithThing);
 
-    function loadThing(done) {
-      Jimp.read(thingURL, done);
+    function makeSceneWithThing(error, thing) {
+      var sceneWidth = thing.bitmap.width + 2 * margin;
+      if (sceneWidth < minSceneWidth) {
+        sceneWidth = minSceneWidth;
+      }
+
+      var sceneHeight = thing.bitmap.height + 2 * margin + linkHeight;
+      if (sceneHeight < minSceneHeight) {
+        sceneHeight = minSceneHeight;
+      }
+
+      var pasteOpts = {
+        background: {
+          width: sceneWidth,
+          height: sceneHeight,
+          fill: 0XFEDBABFF // TODO: Vary
+        },
+        images: [
+          {
+            cacheId: 'link-one-arm-up',
+            x: ~~(sceneWidth/2) - maxLinkWidth/2,
+            y: sceneHeight - margin - linkHeight
+          },
+          {
+            jimpImage: thing,
+            x: margin,
+            y: margin
+          }
+        ]
+      };
+
+      pasteBitmaps(pasteOpts, sceneDone);
     }
   }
+}
 
-  function createImage(thingImage, done) {
-    thing = thingImage;
+function getPathsForCacheIdsMap(ids) {
+  var map = {};
+  ids.forEach(addToMap);
+  return map;
 
-    sceneWidth = thing.bitmap.width + 2 * margin;
-    if (sceneWidth < minSceneWidth) {
-      sceneWidth = minSceneWidth;
-    }
-
-    sceneHeight = thing.bitmap.height + 2 * margin + linkHeight;
-    if (sceneHeight < minSceneHeight) {
-      sceneHeight = minSceneHeight;
-    }
-
-    new Jimp(sceneWidth, sceneHeight, 0XFEDBABFF, done);
+  function addToMap(id) {
+    map[id] = __dirname + `/static/${id}.png`;
   }
-
-  function addLink(theImage, done) {
-    scene = theImage;
-    scene.composite(
-      assetsForIds['link-one-arm-up'],
-      ~~(sceneWidth/2) - maxLinkWidth/2,
-      sceneHeight - margin - linkHeight,
-      done
-    );
-  }
-
-  function addThing(theImage, done) {
-    scene.composite(
-      thing,
-      margin,
-      margin,
-      done
-    );
-  }
-
-  function sendBuffer(thingImage, done) {
-    scene.getBuffer(Jimp.MIME_PNG, done);
-  }
-
-  ((function loadAssets() {
-    const q = queue();
-    assetsToPreload.forEach(queueLoad);
-
-    function queueLoad(id) {
-      q.defer(loadAsset, id);
-    }
-
-    q.awaitAll(passComposeFn);
-  })());  
 }
 
 module.exports = ComposeLinkScene;

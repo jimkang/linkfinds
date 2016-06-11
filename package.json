@@ -41,6 +41,7 @@
     "lodash.pluck": "^3.1.2",
     "nounfinder": "^2.0.0",
     "object-path-exists": "^1.0.0",
+    "paste-bitmaps": "^1.0.1",
     "pick-first-good-url": "^2.0.0",
     "probable": "^1.8.0",
     "request": "^2.72.0",
