@@ -9,21 +9,7 @@ const linkHeight = tileSize;
 const margin = 32;
 const minSceneWidth = maxLinkWidth + 2 * margin;
 const minSceneHeight = linkHeight + 2 * margin;
-
-const assetsToPreload = [
-  'autumn-tree',
-  'fire',
-  'grave',
-  'link-one-arm-up',
-  'moblin',
-  'oldwoman',
-  'fairy',
-  'grave-tree',
-  'green-tree',
-  'link-both-arms-up',
-  'merchant',
-  'oldman'
-];
+const assetsToPreload = require('./entity-ids');
 
 function ComposeLinkScene(createOpts, createDone) {
   var pasteBitmaps;  
