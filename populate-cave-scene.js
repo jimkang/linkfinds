@@ -39,12 +39,12 @@ function populateCaveScene(opts) {
       sceneMap[rightFixturePos[0]][rightFixturePos[1]] = fixtureKey;
     }
 
-    if (probable.roll(10) === 0) {
+    if (probable.roll(20) === 0) {
       addEntitiesToMap({
         map: sceneMap,
         probable: probable,
         entityTableDef: furnitureTableDef,
-        entityAddRoll: () => probable.roll(3) === 0
+        entityAddRoll: () => probable.roll(20) === 0
       });
     }
   }
@@ -53,7 +53,7 @@ function populateCaveScene(opts) {
     const guysTable = probable.createTableFromDef(guysTableDef);
     const mainGuy = guysTable.roll();
 
-    var guyY = map[0].length - 2;
+    var guyY = sceneMap[0].length - 2;
     if (guyY < 0) {
       guyY = 0;
     }

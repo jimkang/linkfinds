@@ -25,7 +25,7 @@ function populateWoodsScene(opts) {
     map: sceneMap,
     probable: probable,
     entityTableDef: treesTableDef,
-    entityAddRoll: () => probable.roll(8) === 0
+    entityAddRoll: () => probable.roll(20) === 0
   });
 
   if (probable.roll(3) === 0) {
@@ -33,7 +33,7 @@ function populateWoodsScene(opts) {
       map: sceneMap,
       probable: probable,
       entityTableDef: guysTableDef,
-      entityAddRoll: () => probable.roll(8) === 0
+      entityAddRoll: () => probable.roll(20) === 0
     });
   }
 

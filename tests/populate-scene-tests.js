@@ -24,7 +24,7 @@ const testCases = [
     },
     expected:
     `.xMx
-     ..xM
+     ..x.
      ..xx`
   },
   {

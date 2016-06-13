@@ -34,7 +34,7 @@ function populateLostWoodsScene(opts) {
       map: sceneMap,
       probable: probable,
       entityTableDef: guysTableDef,
-      entityAddRoll: () => probable.roll(6) === 0
+      entityAddRoll: () => probable.roll(25) === 0
     });
   }
 

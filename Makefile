@@ -38,11 +38,11 @@ check-log:
 make-data-dir:
 	$(SSHCMD) "mkdir -p $(APPDIR)/data"
 
-test: start-local-photo-booth-server
+test:
+	node tests/populate-scene-tests.js
 	rm -rf image-output/*
 	node tests/integration/interesting-words-tests.js
 	node tests/integration/link-finding-images-tests.js
-	make stop-local-photo-booth-server
 
 run-multiple:
 	number=1 ; while [[ $$number -le 25 ]] ; do \
@@ -50,9 +50,9 @@ run-multiple:
 		((number = number + 1)) ; \
 	done
 
-start-local-photo-booth-server:
-	{ node node_modules/web-photo-booth/tools/start-server.js & \
-	 echo $$!  > test-photobooth-pid.txt; }
+# start-local-photo-booth-server:
+# 	{ node node_modules/web-photo-booth/tools/start-server.js & \
+# 	 echo $$!  > test-photobooth-pid.txt; }
 
-stop-local-photo-booth-server:
-	kill $(shell cat test-photobooth-pid.txt)
+# stop-local-photo-booth-server:
+# 	kill $(shell cat test-photobooth-pid.txt)

@@ -20,7 +20,6 @@ function kickOffTests(error, composeLinkScene) {
     composeLinkScene
   });
 
-  console.log('You need to watch processes to make sure there\'s no more than maxSimultaneousWebshots pairs of phantomjs processes during the simultaneous tests!');
   test('Simultaneous request test', testSimultaneous);
 }
 
