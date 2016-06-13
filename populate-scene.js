@@ -9,8 +9,8 @@ const sceneTableDef = {
   '0-24': 'cave',
   '25-49': 'woods',
   '50-59': 'lost-woods',
-  '60-64': 'graveyard',
-  '65-66': 'party'
+  // '60-64': 'graveyard',
+  // '65-66': 'party'
 };
 
 const populatorForScene = {
