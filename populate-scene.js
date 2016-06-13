@@ -3,6 +3,7 @@ const range = require('d3-array').range;
 const assetKeysForMapIds = require('./asset-keys-for-map-ids');
 const populateWoodsScene = require('./populate-woods-scene');
 const populateCaveScene = require('./populate-cave-scene');
+const populateLostWoodsScene = require('./populate-lost-woods-scene');
 
 const sceneTableDef = {
   '0-24': 'cave',
@@ -14,7 +15,8 @@ const sceneTableDef = {
 
 const populatorForScene = {
   'woods': populateWoodsScene,
-  'cave': populateCaveScene
+  'cave': populateCaveScene,
+  'lost-woods': populateLostWoodsScene
 };
 
 function PopulateScene(createOpts) {

@@ -49,6 +49,29 @@ const testCases = [
      .fxf
      ..xx`
   },
+  {
+    name: "Lost woods",
+    ctorOpts: {
+      probable: createProbable({
+        random: seedrandom('lostwoods')
+      })
+    },
+    opts: {
+      sceneSize: [5, 4],
+      occupiedSpots: [
+        [1, 0],
+        [2, 1],
+        [2, 2],
+        [3, 0],
+        [3, 2]
+      ]
+    },
+    expected:
+    `.x.x.
+     ..x..
+     ..xx.
+     e...e`
+  },
 ];
 
 testCases.forEach(runTest);
