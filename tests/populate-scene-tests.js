@@ -9,7 +9,7 @@ const testCases = [
     name: "Don't occupy blocked-out spaces.",
     ctorOpts: {
       probable: createProbable({
-        random: seedrandom('stay-out-of-blocked-spaces')
+        random: seedrandom('woods')
       })
     },
     opts: {
@@ -23,9 +23,9 @@ const testCases = [
       ]
     },
     expected:
-    `MxMx
-     t.x.
-     t.xx`
+    `.xMx
+     ..xM
+     ..xx`
   },
   {
     name: "Cave scene",
