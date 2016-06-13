@@ -11,15 +11,18 @@ function getRandomLinkImageResult(opts, allDone) {
   var source;
   var twit;
   var config;
+  var composeLinkScene;
 
   if (opts) {
     source = opts.source;
     twit = opts.twit;
     config = opts.config;
+    composeLinkScene = opts.composeLinkScene;
   }
 
   const getLinkFindingImage = GetLinkFindingImage({
-    config: config
+    config: config,
+    composeLinkScene: composeLinkScene
   });
 
   var wordnok = createWordnok({

@@ -3,7 +3,7 @@ var config = require('./config');
 var async = require('async');
 var postImage = require('./post-image');
 var getRandomLinkImageResult = require('./get-random-link-image-result');
-
+const ComposeLinkScene = require('./compose-link-scene');
 var Tumblrwks = require('tumblrwks');
 var tumblr = new Tumblrwks(config.tumblr, config.tumblr.blog);
 
@@ -11,16 +11,22 @@ var source = 'wordnik';
 
 async.waterfall(
   [
+    createComposeLinkScene,
     obtainImage,
     postLinkFindingImageToTumblr
   ],
   wrapUp
 );
 
-function obtainImage(done) {
+function createComposeLinkScene(done) {
+  ComposeLinkScene({}, done);
+}
+
+function obtainImage(composeLinkScene, done) {
   var opts = {
     source: source,
-    config: config
+    config: config,
+    composeLinkScene: composeLinkScene
   };
   getRandomLinkImageResult(opts, done);
 }

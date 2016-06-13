@@ -54,6 +54,11 @@ function ComposeLinkScene(createOpts, createDone) {
     Jimp.read(thingURL, makeSceneWithThing);
 
     function makeSceneWithThing(error, thing) {
+      if (error) {
+        sceneDone(error);
+        return;
+      }
+      
       const sceneSizeInTiles = determineSceneSizeInTiles(thing);
       const thingPositionPixels = determineThingPositionInPixels(thing, sceneSizeInTiles);
       const linkPositionPixels = [

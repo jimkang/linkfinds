@@ -18,15 +18,12 @@ var getInterestingWords = require('./get-interesting-words');
 var Nounfinder = require('nounfinder');
 var getImageFromConcepts = require('./get-image-from-concepts');
 var saveWordForUser = require('./save-word-for-user');
+const ComposeLinkScene = require('./compose-link-scene');
 
 var dryRun = false;
 if (process.argv.length > 2) {
   dryRun = (process.argv[2].toLowerCase() == '--dry');
 }
-
-const getLinkFindingImage = GetLinkFindingImage({
-  config: config
-});
 
 var db = Sublevel(level(__dirname + '/data/linkfinds-responses.db'));
 var lastReplyDates = db.sublevel('last-reply-dates');
@@ -37,13 +34,29 @@ var nounfinder = Nounfinder({
 var username = behavior.twitterUsername;
 
 var twit = new Twit(config.twitter);
-var streamOpts = {
-  replies: 'all'
-};
-var stream = twit.stream('user', streamOpts);
+var getLinkFindingImage;
 
-stream.on('tweet', respondToTweet);
-stream.on('error', logError);
+ComposeLinkScene({}, startStream);
+
+function startStream(error, composeLinkScene) {
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  getLinkFindingImage = GetLinkFindingImage({
+    config: config,
+    composeLinkScene: composeLinkScene
+  });
+
+  var streamOpts = {
+    replies: 'all'
+  };
+  var stream = twit.stream('user', streamOpts);
+
+  stream.on('tweet', respondToTweet);
+  stream.on('error', logError);
+}
 
 function respondToTweet(incomingTweet) {
   async.waterfall(

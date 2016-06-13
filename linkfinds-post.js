@@ -5,6 +5,7 @@ var Twit = require('twit');
 var async = require('async');
 var postImage = require('./post-image');
 var getRandomLinkImageResult = require('./get-random-link-image-result');
+const ComposeLinkScene = require('./compose-link-scene');
 
 var source = 'wordnik';
 var dryRun = false;
@@ -21,17 +22,23 @@ var twit = new Twit(config.twitter);
 
 async.waterfall(
   [
+    createComposeLinkScene,
     obtainImage,
     postLinkFindingImage
   ],
   wrapUp
 );
 
-function obtainImage(done) {
+function createComposeLinkScene(done) {
+  ComposeLinkScene({}, done);
+}
+
+function obtainImage(composeLinkScene, done) {
   var opts = {
     source: source,
     twit: twit,
-    config: config
+    config: config,
+    composeLinkScene: composeLinkScene
   };
   getRandomLinkImageResult(opts, done);
 }
