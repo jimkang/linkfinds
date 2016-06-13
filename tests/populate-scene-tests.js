@@ -23,10 +23,32 @@ const testCases = [
       ]
     },
     expected:
-    `.x.x
+    `MxMx
      t.x.
      t.xx`
   },
+  // {
+  //   name: "Cave scene",
+  //   ctorOpts: {
+  //     probable: createProbable({
+  //       random: seedrandom('cave')
+  //     })
+  //   },
+  //   opts: {
+  //     sceneSize: [4, 3],
+  //     occupiedSpots: [
+  //       [1, 0],
+  //       [2, 1],
+  //       [2, 2],
+  //       [3, 0],
+  //       [3, 2]
+  //     ]
+  //   },
+  //   expected:
+  //   `.x.x
+  //    t.x.
+  //    t.xx`
+  // },
 ];
 
 testCases.forEach(runTest);

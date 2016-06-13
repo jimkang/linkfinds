@@ -2,6 +2,7 @@ const defaultProbable = require('probable');
 const range = require('d3-array').range;
 const assetKeysForMapIds = require('./asset-keys-for-map-ids');
 const populateWoodsScene = require('./populate-woods-scene');
+// const populateCaveScene = require('./populate-cave-scene');
 
 const sceneTableDef = {
   '0-24': 'cave',
@@ -12,7 +13,8 @@ const sceneTableDef = {
 };
 
 const populatorForScene = {
-  'woods': populateWoodsScene
+  'woods': populateWoodsScene,
+  // 'cave': populateCaveScene
 };
 
 function PopulateScene(createOpts) {
@@ -43,7 +45,7 @@ function PopulateScene(createOpts) {
     markSpots(sceneMap, occupiedSpots, 'x');
 
     const sceneType = sceneTable.roll();
-    // console.log(sceneType);
+    console.log(sceneType);
     populatorForScene[sceneType]({
       probable: probable,
       sceneMap: sceneMap
