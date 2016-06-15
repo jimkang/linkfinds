@@ -29,7 +29,12 @@ filteredFollowback(
       2566358196,
       129586119,
       3238030304,
-      3193947078
+      3193947078,
+      3519312377, // dasharez0ne
+      3347203689, // @restroomgender
+      2647139192, // @wikisext
+      2802867446, // @pixelsorter
+      2300333096 // @ghost_things
     ],
     blacklist: [
     ]
