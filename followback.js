@@ -1,4 +1,5 @@
 var config = require('./config');
+require('longjohn');
 var filteredFollowback = require('filtered-followback');
 
 filteredFollowback(
