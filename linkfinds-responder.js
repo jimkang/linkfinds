@@ -89,7 +89,7 @@ function respondToTweet(incomingTweet) {
       }
     }
 
-    if (photo && probable.roll(100) === 0) {
+    if (photo && probable.roll(8) === 0) {
       imageConcept.imgurl = photo.media_url;
 
       if (photo.sizes && 'medium' in photo.sizes) {
