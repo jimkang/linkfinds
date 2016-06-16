@@ -129,7 +129,10 @@ function determineSceneSizeInTiles(thing) {
     sceneWidth = thingTileSize[0] + 2;
   }
 
-  if (sceneHeight < thingTileSize[1] + 2) {
+  if (sceneHeight > 2 * thingTileSize[1]) {
+    sceneHeight = ~~(sceneHeight/2);
+  }
+  else if (sceneHeight < thingTileSize[1] + 2) {
     sceneHeight = thingTileSize[1] + 2;
   }
   return [sceneWidth, sceneHeight];
@@ -152,7 +155,7 @@ function determineThingPositionInPixels(thing, sceneSizeInTiles) {
 
   return [
     ~~((sceneSizeInTiles[0] * tileSize)/2 - thing.bitmap.width/2),
-    pixelToTileCoord(freeVerticalSpace/2)
+    tileSize * pixelToTileCoord(freeVerticalSpace/2)
   ];
 }
 

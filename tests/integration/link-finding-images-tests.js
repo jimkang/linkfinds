@@ -46,6 +46,13 @@ var testCases = [
       imgurl: 'http://vignette2.wikia.nocookie.net/p__/images/a/a6/Mort_Goldman.png/revision/latest?cb=20150524125305&path-prefix=protagonist',
       concept: 'test'
     }
+  },
+  {
+    name: 'Short thing',
+    imageConcept: {
+      imgurl: 'http://vignette2.wikia.nocookie.net/mario/images/0/0d/SMW2_Sprite_Shy_Guy.png/revision/latest?cb=20080216150350&path-prefix=de',
+      concept: 'test'
+    }
   }
 ];
 

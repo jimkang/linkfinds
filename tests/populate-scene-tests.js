@@ -23,7 +23,7 @@ const testCases = [
       ]
     },
     expected:
-    `.xMx
+    `.xox
      ..x.
      ..xx`
   },
