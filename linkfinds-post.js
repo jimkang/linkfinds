@@ -6,6 +6,7 @@ var async = require('async');
 var postImage = require('./post-image');
 var getRandomLinkImageResult = require('./get-random-link-image-result');
 const ComposeLinkScene = require('./compose-link-scene');
+const fs = require('fs');
 
 var source = 'wordnik';
 var dryRun = false;
@@ -55,7 +56,18 @@ function postLinkFindingImage(linkResult, done) {
   if (source === 'trending') {
     postImageOpts.caption += ' #' + linkResult.concept.replace(/ /g, '');
   }
-  postImage(postImageOpts, done);
+
+  if (dryRun) {
+    const filename = 'would-have-posted-' +
+      (new Date()).toISOString().replace(/:/g, '-') +
+      '.png';
+    console.log('Writing out', filename);
+    fs.writeFileSync(filename, postImageOpts.base64Image, {encoding: 'base64'});
+    process.exit();
+  }
+  else {
+    postImage(postImageOpts, done);
+  }
 }
 
 function wrapUp(error, data) {

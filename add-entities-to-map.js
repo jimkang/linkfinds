@@ -16,6 +16,7 @@ function addEntitiesToMap(opts) {
   var entityCount = 0;
 
   const table = probable.createTableFromDef(entityTableDef);
+
   for (var x = 0; x < map.length; ++x) {
     for (var y = 0; y < map[x].length; ++y) {
       if (!isNaN(entityLimit) && entityCount > entityLimit) {

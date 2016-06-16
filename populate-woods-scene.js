@@ -3,13 +3,15 @@ const addEntitiesToMap = require('./add-entities-to-map');
 const treesTableDef = {
   '0-89': 't', // green-tree
   '90-98': 'e', // autumn-tree
-  '99': 'r' // grave-tree
+  '99-99': 'r' // grave-tree
 };
 
 const guysTableDef = {
-  '0-69': 'M', // Moblin
+  '0-29': 'M', // Moblin
+  '30-54': 'o', // Octorok
+  '55-69': 's', // Tektite
   '70-98': 'F', // Fairy
-  '99': '$' // Merchant
+  '99-99': '$' // Merchant
 };
 
 function populateWoodsScene(opts) {

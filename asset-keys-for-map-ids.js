@@ -11,5 +11,7 @@ module.exports = {
   L: 'link-both-arms-up',
   $: 'merchant',
   m: 'oldman',
-  G: 'ghini'
+  G: 'ghini',
+  o: 'octorok-red',
+  s: 'tektite-red'
 };

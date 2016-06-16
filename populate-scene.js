@@ -49,7 +49,7 @@ function PopulateScene(createOpts) {
     markSpots(sceneMap, occupiedSpots, 'x');
 
     const sceneType = sceneTable.roll();
-    console.log(sceneType);
+    // console.log(sceneType);
     populatorForScene[sceneType]({
       probable: probable,
       sceneMap: sceneMap
