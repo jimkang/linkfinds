@@ -10,5 +10,6 @@ module.exports = {
   t: 'green-tree',
   L: 'link-both-arms-up',
   $: 'merchant',
-  m: 'oldman'
+  m: 'oldman',
+  G: 'ghini'
 };

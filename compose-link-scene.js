@@ -19,7 +19,8 @@ const backgroundTable = probable.createTableFromDef({
   '0-19': 0xFFFFFFFF, // 'background-white',
   '20-54': 0X000000FF, // 'background-black',
   '55-89': 0XFEDBABFF, // 'background-overworld'
-  '90-99': 0XFEDBAB00 // transparent
+  '90-99': 0XFEDBAB00, // transparent,
+  '100-109': 0X757575FF // graveyard
 });
 
 function ComposeLinkScene(createOpts, createDone) {

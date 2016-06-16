@@ -72,6 +72,29 @@ const testCases = [
      ..xx.
      e...e`
   },
+  {
+    name: "Graveyard",
+    ctorOpts: {
+      probable: createProbable({
+        random: seedrandom('graveyard')
+      })
+    },
+    opts: {
+      sceneSize: [5, 4],
+      occupiedSpots: [
+        [1, 0],
+        [2, 1],
+        [2, 2],
+        [3, 0],
+        [3, 2]
+      ]
+    },
+    expected:
+    `.x.x.
+     .gx.g
+     g.xxr
+     r...r`
+  },
 ];
 
 testCases.forEach(runTest);

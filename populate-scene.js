@@ -4,19 +4,21 @@ const assetKeysForMapIds = require('./asset-keys-for-map-ids');
 const populateWoodsScene = require('./populate-woods-scene');
 const populateCaveScene = require('./populate-cave-scene');
 const populateLostWoodsScene = require('./populate-lost-woods-scene');
+const poplulateGraveyardScene = require('./populate-graveyard-scene');
 
 const sceneTableDef = {
   '0-24': 'cave',
   '25-49': 'woods',
-  '50-59': 'lost-woods',
-  // '60-64': 'graveyard',
+  '50-64': 'lost-woods',
+  '65-69': 'graveyard',
   // '65-66': 'party'
 };
 
 const populatorForScene = {
   'woods': populateWoodsScene,
   'cave': populateCaveScene,
-  'lost-woods': populateLostWoodsScene
+  'lost-woods': populateLostWoodsScene,
+  'graveyard': poplulateGraveyardScene
 };
 
 function PopulateScene(createOpts) {
@@ -47,7 +49,7 @@ function PopulateScene(createOpts) {
     markSpots(sceneMap, occupiedSpots, 'x');
 
     const sceneType = sceneTable.roll();
-    // console.log(sceneType);
+    console.log(sceneType);
     populatorForScene[sceneType]({
       probable: probable,
       sceneMap: sceneMap

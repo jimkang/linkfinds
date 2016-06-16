@@ -11,6 +11,7 @@ const guysTableDef = {
   '80-119': '$', // Merchant
   '120-129': 'M', // Moblin
   '130-131': 'F', // Fairy
+  '132-132': 'G', // Ghini
 };
 
 function populateCaveScene(opts) {

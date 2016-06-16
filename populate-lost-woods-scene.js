@@ -10,7 +10,8 @@ const fixturesTableDef = {
 const guysTableDef = {
   '0-69': 'M', // Moblin
   '70-98': 'F', // Fairy
-  '99': 'm' // old man
+  '99-99': 'm', // old man
+  '100-109': 'G', // Ghini
 };
 
 function populateLostWoodsScene(opts) {
