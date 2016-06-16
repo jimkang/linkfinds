@@ -34,7 +34,9 @@ filteredFollowback(
       3347203689, // @restroomgender
       2647139192, // @wikisext
       2802867446, // @pixelsorter
-      2300333096 // @ghost_things
+      2300333096, // @ghost_things
+      2869819060, // @mythologybot
+      4406413835 // @metalband_exe
     ],
     blacklist: [
     ]
