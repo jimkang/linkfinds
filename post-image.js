@@ -11,6 +11,7 @@ function postImage(opts, allDone) {
   var altText;
   var caption;
   var in_reply_to_status_id_str;
+  var in_reply_to_user_id_str;
 
   if (opts) {
     twit = opts.twit;
@@ -19,6 +20,7 @@ function postImage(opts, allDone) {
     altText = opts.altText;
     caption = opts.caption;
     in_reply_to_status_id_str = opts.in_reply_to_status_id_str;
+    in_reply_to_user_id_str = opts.in_reply_to_user_id_str;
   }
 
   if (base64Image.length < 10) {
@@ -78,6 +80,9 @@ function postImage(opts, allDone) {
     };
     if (in_reply_to_status_id_str) {
       body.in_reply_to_status_id_str = in_reply_to_status_id_str;
+    }
+    if (in_reply_to_user_id_str) {
+      body.in_reply_to_user_id_str = in_reply_to_user_id_str;
     }
 
     if (dryRun) {
