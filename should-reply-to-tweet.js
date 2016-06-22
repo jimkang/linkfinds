@@ -19,6 +19,14 @@ function shouldReplyToTweet(opts, done) {
     lastReplyDates = opts.lastReplyDates;
   }
 
+  //  if (tweet.user.screen_name === 'deathmtn') {
+  //   callNextTick(done);
+  // }
+  // else {
+  //   callNextTick(done, new Error('Moving on.'));
+  // }
+  // return;
+
   if (tweet.user.screen_name === username) {
     callNextTick(done, new Error('Subject tweet is own tweet.'));
     return;
