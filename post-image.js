@@ -12,6 +12,7 @@ function postImage(opts, allDone) {
   var caption;
   var in_reply_to_status_id_str;
   var in_reply_to_user_id_str;
+  var in_reply_to_screen_name;
 
   if (opts) {
     twit = opts.twit;
@@ -21,6 +22,7 @@ function postImage(opts, allDone) {
     caption = opts.caption;
     in_reply_to_status_id_str = opts.in_reply_to_status_id_str;
     in_reply_to_user_id_str = opts.in_reply_to_user_id_str;
+    in_reply_to_screen_name = opts.in_reply_to_screen_name;
   }
 
   if (base64Image.length < 10) {
@@ -83,6 +85,9 @@ function postImage(opts, allDone) {
     }
     if (in_reply_to_user_id_str) {
       body.in_reply_to_user_id_str = in_reply_to_user_id_str;
+    }
+    if (in_reply_to_screen_name) {
+      body.in_reply_to_screen_name = in_reply_to_screen_name;
     }
 
     if (dryRun) {

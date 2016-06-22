@@ -156,7 +156,8 @@ function respondToTweet(incomingTweet) {
       altText: linkResult.concept,
       caption: '@' + incomingTweet.user.screen_name + ' ♪ DOO DOO DOO DOO! ♪',
       in_reply_to_status_id_str: incomingTweet.id_str,
-      in_reply_to_user_id_str: incomingTweet.user.id_str
+      in_reply_to_user_id_str: incomingTweet.user.id_str,
+      in_reply_to_screen_name: incomingTweet.user.screen_name
     };
 
     postImage(postImageOpts, done);
