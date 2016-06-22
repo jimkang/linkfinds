@@ -10,7 +10,7 @@ function postImage(opts, allDone) {
   var base64Image;
   var altText;
   var caption;
-  var in_reply_to_status_id;
+  var in_reply_to_status_id_str;
 
   if (opts) {
     twit = opts.twit;
@@ -18,7 +18,7 @@ function postImage(opts, allDone) {
     base64Image = opts.base64Image;
     altText = opts.altText;
     caption = opts.caption;
-    in_reply_to_status_id = opts.in_reply_to_status_id;
+    in_reply_to_status_id_str = opts.in_reply_to_status_id_str;
   }
 
   if (base64Image.length < 10) {
@@ -28,7 +28,7 @@ function postImage(opts, allDone) {
     return;
   }
 
-  var optSummary = pick(opts, 'altText', 'caption', 'in_reply_to_status_id');
+  var optSummary = pick(opts, 'altText', 'caption', 'in_reply_to_status_id_str');
   optSummary.base64Image = base64Image.substr(0, 100) + '[truncated]';
   console.log('Posting image for', altText, JSON.stringify(optSummary));
 
@@ -76,8 +76,8 @@ function postImage(opts, allDone) {
         mediaPostData.media_id_string
       ]
     };
-    if (in_reply_to_status_id) {
-      body.in_reply_to_status_id = in_reply_to_status_id;
+    if (in_reply_to_status_id_str) {
+      body.in_reply_to_status_id_str = in_reply_to_status_id_str;
     }
 
     if (dryRun) {
