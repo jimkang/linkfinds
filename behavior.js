@@ -1,7 +1,7 @@
 var behavior = {
-  hoursToWaitBetweenRepliesToSameUser: 25,
+  hoursToWaitBetweenRepliesToSameUser: 13,
   twitterUsername: 'linkfinds',
-  maxCommonness: 5000,
+  maxCommonness: 10000,
   numberOfImageResultToConsider: 100
 };
 
