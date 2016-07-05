@@ -8,6 +8,12 @@ var findWhere = require('lodash.findwhere');
 var behavior = require('./behavior');
 var pathExists = require('object-path-exists');
 
+var nonTextImageTypeTable = probable.createTableFromDef({
+  '0-2': 'photo',
+  '3-3': 'clipart',
+  '4-4': 'lineart'
+});
+
 function getImageFromConcepts(concepts, allDone) {
   var result;
   async.someSeries(concepts, searchGIS, passResult);
@@ -17,6 +23,12 @@ function getImageFromConcepts(concepts, allDone) {
       searchTerm: concept,
       queryStringAddition: '&tbs=ic:trans'
     };
+
+    if (probable.roll(4) > 0) {
+      // Try to reduce the amount of text-in-image results.
+      gisOpts.queryStringAddition += ',itp:' + nonTextImageTypeTable.roll();
+    }
+
     gis(gisOpts, checkGISResults);
 
     function checkGISResults(error, results) {
