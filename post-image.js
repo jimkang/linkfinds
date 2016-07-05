@@ -82,9 +82,11 @@ function postImage(opts, allDone) {
     };
     if (in_reply_to_status_id_str) {
       body.in_reply_to_status_id_str = in_reply_to_status_id_str;
+      body.in_reply_to_status_id = in_reply_to_status_id_str;
     }
     if (in_reply_to_user_id_str) {
       body.in_reply_to_user_id_str = in_reply_to_user_id_str;
+      body.in_reply_to_user_id = in_reply_to_status_id_str;
     }
     if (in_reply_to_screen_name) {
       body.in_reply_to_screen_name = in_reply_to_screen_name;
