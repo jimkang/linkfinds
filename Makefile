@@ -50,6 +50,13 @@ run-multiple:
 		((number = number + 1)) ; \
 	done
 
+update-iscool-and-chime-in:
+	git pull origin master && \
+		npm update --save iscool && \
+		npm update --save can-i-chime-in && \
+		git commit -a -m"Updated iscool and can-i-chime-in." && \
+		make pushall
+
 # start-local-photo-booth-server:
 # 	{ node node_modules/web-photo-booth/tools/start-server.js & \
 # 	 echo $$!  > test-photobooth-pid.txt; }
