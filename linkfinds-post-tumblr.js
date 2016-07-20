@@ -36,7 +36,8 @@ function postLinkFindingImageToTumblr(linkResult, done) {
     type: 'photo',
     source: 'data64',
     data64: linkResult.base64Image,
-    caption: '♪ DOO DOO DOO DOO! ♪'
+    caption: '♪ DOO DOO DOO DOO! ♪',
+    tags: 'zelda, link, ' + linkResult.concept.replace(/ /g, '')
   };
 
   tumblr.post('/post', postImageOpts, avoidLongWarningCallback);
