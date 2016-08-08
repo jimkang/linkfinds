@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/jimkang/linkfinds",
   "devDependencies": {
+    "idmaker": "^0.1.1",
     "longjohn": "^0.2.11",
     "rimraf": "^2.5.2",
+    "seed-random": "^2.2.0",
     "seedrandom": "^2.4.2",
     "tape": "^3.0.3",
     "web-photo-booth": "^1.1.1"

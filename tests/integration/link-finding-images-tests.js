@@ -2,13 +2,21 @@ var test = require('tape');
 var GetLinkFindingImage = require('../../get-link-finding-image');
 var fs = require('fs');
 const config = require('../../test-config');
+const seedrandom = require('seedrandom');
+// const randomId = require('idmaker').randomId;
 
 const ComposeLinkScene = require('../../compose-link-scene');
 
 var getLinkFindingImage;
 var imageCounter = 0;
 
-ComposeLinkScene(null, kickOffTests);
+// var seed = randomId(8);
+// console.log('seed', seed);
+var composeOpts = {
+  random: seedrandom('cFShxMUU')
+};
+
+ComposeLinkScene(composeOpts, kickOffTests);
 
 function kickOffTests(error, composeLinkScene) {
   if (error) {
@@ -51,6 +59,13 @@ var testCases = [
     name: 'Short thing',
     imageConcept: {
       imgurl: 'http://vignette2.wikia.nocookie.net/mario/images/0/0d/SMW2_Sprite_Shy_Guy.png/revision/latest?cb=20080216150350&path-prefix=de',
+      concept: 'test'
+    }
+  },
+  {
+    name: 'Check images for Link getting cut off',
+    imageConcept: {
+      imgurl: 'https://i.ytimg.com/i/id9fR9hM0WQAqVa1NeeDcA/mq1.jpg?v=51277a36',
       concept: 'test'
     }
   }

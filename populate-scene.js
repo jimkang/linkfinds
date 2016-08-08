@@ -47,7 +47,6 @@ function PopulateScene(createOpts) {
 
     var sceneMap = range(sceneSize[0]).map(makeColumn);
     markSpots(sceneMap, occupiedSpots, 'x');
-
     const sceneType = sceneTable.roll();
     // console.log(sceneType);
     populatorForScene[sceneType]({

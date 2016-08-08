@@ -2,7 +2,7 @@ const async = require('async');
 const queue = require('d3-queue').queue;
 const Jimp = require('jimp');
 const PasteBitmaps = require('paste-bitmaps');
-const probable = require('probable');
+const createProbable = require('probable').createProbable;
 const maxLinkWidth = 56;
 const tileSize = 64;
 const linkHeight = tileSize;
@@ -15,15 +15,29 @@ const assetsToPreload = values(assetKeysForMapIds);
 const PopulateScene = require('./populate-scene');
 const range = require('d3-array').range;
 
-const backgroundTable = probable.createTableFromDef({
-  '0-19': 0xFFFFFFFF, // 'background-white',
-  '20-54': 0X000000FF, // 'background-black',
-  '55-89': 0XFEDBABFF, // 'background-overworld'
-  '90-99': 0XFEDBAB00, // transparent,
-  '100-109': 0X757575FF // graveyard
-});
 
 function ComposeLinkScene(createOpts, createDone) {
+  if (createOpts) {
+    var {
+      random
+    } = createOpts;
+  }
+
+  var probable = createProbable();
+  if (random) {
+    probable = createProbable({
+      random: random
+    });
+  }
+
+  const backgroundTable = probable.createTableFromDef({
+    '0-19': 0xFFFFFFFF, // 'background-white',
+    '20-54': 0X000000FF, // 'background-black',
+    '55-89': 0XFEDBABFF, // 'background-overworld'
+    '90-99': 0XFEDBAB00, // transparent,
+    '100-109': 0X757575FF // graveyard
+  });
+
   const populateScene = PopulateScene({
     probable: probable
   });
@@ -71,10 +85,18 @@ function ComposeLinkScene(createOpts, createDone) {
         thingPositionPixels[0], thingPositionPixels[1],
         thing.bitmap.width, thing.bitmap.height
       );
-      occupied = occupied.concat(tilesOccupiedByImage(
+      var tilesOccupiedByLink = tilesOccupiedByImage(
         linkPositionPixels[0], linkPositionPixels[1],
         tileSize, tileSize
-      ));
+      );
+      occupied = occupied.concat(tilesOccupiedByLink);
+
+      var lowestLinkRow = tilesOccupiedByLink[tilesOccupiedByLink.length - 1][1];
+
+      // We always want there to be one row below Link so that he does not get cut off.
+      if (lowestLinkRow >= sceneSizeInTiles[1]) {
+        sceneSizeInTiles[1] = lowestLinkRow + 1;
+      }
 
       const sceneMap = populateScene({
         sceneSize: sceneSizeInTiles,
@@ -106,6 +128,26 @@ function ComposeLinkScene(createOpts, createDone) {
       pasteBitmaps(pasteOpts, sceneDone);
     }
   }
+
+  function determineSceneSizeInTiles(thing) {
+    const thingTileSize = getImageTileSize(thing);
+
+    // Average to 16x11.
+    var sceneWidth = 4 + probable.roll(13) + probable.roll(13);
+    var sceneHeight = 4 + probable.roll(8) + probable.roll(8)
+
+    if (sceneWidth < thingTileSize[0] + 2) {
+      sceneWidth = thingTileSize[0] + 2;
+    }
+
+    if (sceneHeight > 2 * thingTileSize[1]) {
+      sceneHeight = ~~(sceneHeight/2);
+    }
+    else if (sceneHeight < thingTileSize[1] + 2) {
+      sceneHeight = thingTileSize[1] + 2;
+    }
+    return [sceneWidth, sceneHeight];
+  }
 }
 
 function getPathsForCacheIdsMap(ids) {
@@ -116,26 +158,6 @@ function getPathsForCacheIdsMap(ids) {
   function addToMap(id) {
     map[id] = __dirname + `/static/${id}.png`;
   }
-}
-
-function determineSceneSizeInTiles(thing) {
-  const thingTileSize = getImageTileSize(thing);
-
-  // Average to 16x11.
-  var sceneWidth = 4 + probable.roll(13) + probable.roll(13);
-  var sceneHeight = 4 + probable.roll(8) + probable.roll(8)
-
-  if (sceneWidth < thingTileSize[0] + 2) {
-    sceneWidth = thingTileSize[0] + 2;
-  }
-
-  if (sceneHeight > 2 * thingTileSize[1]) {
-    sceneHeight = ~~(sceneHeight/2);
-  }
-  else if (sceneHeight < thingTileSize[1] + 2) {
-    sceneHeight = thingTileSize[1] + 2;
-  }
-  return [sceneWidth, sceneHeight];
 }
 
 function getImageTileSize(image) {
