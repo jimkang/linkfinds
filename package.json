@@ -36,6 +36,7 @@
     "filtered-followback": "^1.3.5",
     "g-i-s": "^2.0.0",
     "get-images-from-tweet": "^1.0.0",
+    "get-rgba-palette": "^2.0.0",
     "iscool": "^1.1.24",
     "jimp": "^0.2.24",
     "level": "^1.4.0",

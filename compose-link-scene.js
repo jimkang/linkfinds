@@ -14,7 +14,7 @@ const assetKeysForMapIds = require('./asset-keys-for-map-ids');
 const assetsToPreload = values(assetKeysForMapIds);
 const PopulateScene = require('./populate-scene');
 const range = require('d3-array').range;
-
+const palette = require('get-rgba-palette');
 
 function ComposeLinkScene(createOpts, createDone) {
   if (createOpts) {
@@ -34,6 +34,12 @@ function ComposeLinkScene(createOpts, createDone) {
     '0-19': 0xFFFFFFFF, // 'background-white',
     '20-54': 0X000000FF, // 'background-black',
     '55-89': 0XFEDBABFF, // 'background-overworld'
+    '90-99': 0XFEDBAB00, // transparent,
+    '100-109': 0X757575FF // graveyard
+  });
+  const backgroundTableNoBlack = probable.createTableFromDef({
+    '0-34': 0xFFFFFFFF, // 'background-white',
+    '35-89': 0XFEDBABFF, // 'background-overworld'
     '90-99': 0XFEDBAB00, // transparent,
     '100-109': 0X757575FF // graveyard
   });
@@ -125,6 +131,13 @@ function ComposeLinkScene(createOpts, createDone) {
         images: imageSpecs
       };
 
+      if (pasteOpts.background.fill === 0X000000FF) {
+        var colors = palette(thing.bitmap.data, 1, 1);
+        if (isCloseToBlack(colors[0])) {
+          pasteOpts.background.fill = backgroundTableNoBlack.roll();
+        }
+      }
+
       pasteBitmaps(pasteOpts, sceneDone);
     }
   }
@@ -212,6 +225,10 @@ function sceneMapToImageSpecs(sceneMap) {
     }
   }
   return imageSpecs;
+}
+
+function isCloseToBlack(rgb) {
+  return rgb[0] <25 && rgb[1] <25 && rgb[2] <25;
 }
 
 module.exports = ComposeLinkScene;
