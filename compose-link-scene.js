@@ -30,6 +30,7 @@ function ComposeLinkScene(createOpts, createDone) {
     });
   }
 
+  // TODO: Background should be part of the scene.
   const backgroundTable = probable.createTableFromDef({
     '0-19': 0xFFFFFFFF, // 'background-white',
     '20-54': 0X000000FF, // 'background-black',

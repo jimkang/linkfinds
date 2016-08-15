@@ -3,7 +3,8 @@ const addEntitiesToMap = require('./add-entities-to-map');
 const treesTableDef = {
   '0-89': 't', // green-tree
   '90-98': 'e', // autumn-tree
-  '99-99': 'r' // grave-tree
+  '99-99': 'r', // grave-tree
+  '100-102': '¡' // 'armos-statue'
 };
 
 const guysTableDef = {
@@ -11,7 +12,11 @@ const guysTableDef = {
   '30-54': 'o', // Octorok
   '55-69': 's', // Tektite
   '70-98': 'F', // Fairy
-  '99-99': '$' // Merchant
+  '99-99': '$', // Merchant
+  '100-100': '¢', // goriya'
+  '101-109': '¥', // moblin-blue'
+  '110-124': '¦', // octorok-blue'
+  '125-139': 'ª', // tektite-blue'
 };
 
 function populateWoodsScene(opts) {

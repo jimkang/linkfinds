@@ -2,7 +2,9 @@ const addEntitiesToMap = require('./add-entities-to-map');
 
 const furnitureTableDef = {
   '0-89': 'f', // fire
-  '90-91': 'g' // grave
+  '90-91': 'g', // grave
+  '92-129': '¨', // stone-statue1
+  '130-169': '©', // stone-statue2
 };
 
 const guysTableDef = {
@@ -12,6 +14,12 @@ const guysTableDef = {
   '120-129': 'M', // Moblin
   '130-131': 'F', // Fairy
   '132-132': 'G', // Ghini
+  '133-149': '£', // keese
+  '150-154': '¤', // like-like
+  '155-164': '§', // stalfos
+  '165-169': '«', // 'wizzrobe-blue',
+  '170-179': '¬', // 'wizzrobe-red',
+  '180-194': '®', // 'zol'
 };
 
 function populateCaveScene(opts) {

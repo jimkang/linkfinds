@@ -4,7 +4,8 @@ const fixturesTableDef = {
   '0-79': 'e', // autumn-tree
   '80-94': 't', // green-tree
   '95-99': 'r', // grave-tree
-  '100-104': 'g' // grave
+  '100-104': 'g', // grave
+  '105-108': '¡' // 'armos-statue'
 };
 
 const guysTableDef = {
@@ -12,6 +13,10 @@ const guysTableDef = {
   '70-98': 'F', // Fairy
   '99-99': 'm', // old man
   '100-109': 'G', // Ghini
+  '110-119': '¢', // goriya'
+  '120-149': '¥', // moblin-blue'
+  '150-159': '¦', // octorok-blue'
+  '160-169': 'ª', // tektite-blue'
 };
 
 function populateLostWoodsScene(opts) {
