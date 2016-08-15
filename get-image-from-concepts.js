@@ -9,10 +9,16 @@ var behavior = require('./behavior');
 var pathExists = require('object-path-exists');
 
 var nonTextImageTypeTable = probable.createTableFromDef({
-  '0-2': 'photo',
-  '3-3': 'clipart',
-  '4-4': 'lineart'
+  '0-5': 'photo',
+  '6-6': 'clipart',
+  '7-7': 'lineart'
 });
+
+var skipDomains = [
+  'deviantart.net',
+  'deviantart.com',
+  'tumblr.com'
+];
 
 function getImageFromConcepts(concepts, allDone) {
   var result;
@@ -43,9 +49,10 @@ function getImageFromConcepts(concepts, allDone) {
           results.slice(0, behavior.numberOfImageResultToConsider)
         );
         var pickOpts = {
-          urls: pluck(imageResults, 'url'),
+          urls: pluck(imageResults, 'url').filter(domainIsOK),
           responseChecker: isImageMIMEType
         };
+
         pickFirstGoodURL(pickOpts, saveGoodURL);        
       }
 
@@ -91,6 +98,14 @@ function isImageMIMEType(response, done) {
   }
   else {
     callNextTick(done, null, false);
+  }
+}
+
+function domainIsOK(url) {
+  return skipDomains.every(skipDomainIsNotInURL);
+
+  function skipDomainIsNotInURL(skipDomain) {
+    return url.indexOf(skipDomain) === -1;
   }
 }
 
