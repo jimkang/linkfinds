@@ -17,10 +17,10 @@ const range = require('d3-array').range;
 const palette = require('get-rgba-palette');
 
 function ComposeLinkScene(createOpts, createDone) {
+  var random;
+
   if (createOpts) {
-    var {
-      random
-    } = createOpts;
+    random = createOpts.random;
   }
 
   var probable = createProbable();
