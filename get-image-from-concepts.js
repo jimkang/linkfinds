@@ -27,7 +27,7 @@ function getImageFromConcepts(concepts, allDone) {
   function searchGIS(concept, done) {
     var gisOpts = {
       searchTerm: concept,
-      queryStringAddition: '&tbs=ic:trans'
+      queryStringAddition: '&safe=active&tbs=ic:trans'
     };
 
     if (probable.roll(4) > 0) {
