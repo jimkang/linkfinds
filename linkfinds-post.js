@@ -1,3 +1,5 @@
+/* global process */
+
 var config = require('./config');
 // var config = require('./test-config');
 
@@ -5,8 +7,9 @@ var Twit = require('twit');
 var async = require('async');
 var postImage = require('./post-image');
 var getRandomLinkImageResult = require('./get-random-link-image-result');
-const ComposeLinkScene = require('./compose-link-scene');
-const fs = require('fs');
+var dooDooDooDoo = require('./doo-doo-doo-doo');
+var ComposeLinkScene = require('./compose-link-scene');
+var fs = require('fs');
 
 var source = 'wordnik';
 var dryRun = false;
@@ -50,7 +53,7 @@ function postLinkFindingImage(linkResult, done) {
     dryRun: dryRun,
     base64Image: linkResult.base64Image,
     altText: linkResult.concept,
-    caption: '♪ DOO DOO DOO DOO! ♪'
+    caption: dooDooDooDoo()
   };
 
   if (source === 'trending') {

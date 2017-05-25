@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global process __dirname */
 
 var config = require('./config');
 var callNextTick = require('call-next-tick');
@@ -9,7 +10,6 @@ var shouldReplyToTweet = require('./should-reply-to-tweet');
 var level = require('level');
 var Sublevel = require('level-sublevel');
 var probable = require('probable');
-var getImagesFromTweet = require('get-images-from-tweet');
 var pathExists = require('object-path-exists');
 var postImage = require('./post-image');
 var GetLinkFindingImage = require('./get-link-finding-image');
@@ -17,8 +17,8 @@ var saveWordForUser = require('./save-word-for-user');
 var getInterestingWords = require('./get-interesting-words');
 var Nounfinder = require('nounfinder');
 var getImageFromConcepts = require('./get-image-from-concepts');
-var saveWordForUser = require('./save-word-for-user');
-const ComposeLinkScene = require('./compose-link-scene');
+var ComposeLinkScene = require('./compose-link-scene');
+var dooDooDooDoo = require('./doo-doo-doo-doo');
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -154,7 +154,7 @@ function respondToTweet(incomingTweet) {
       dryRun: dryRun,
       base64Image: linkResult.base64Image,
       altText: linkResult.concept,
-      caption: '@' + incomingTweet.user.screen_name + ' ♪ DOO DOO DOO DOO! ♪',
+      caption: '@' + incomingTweet.user.screen_name + ' ' + dooDooDooDoo(),
       in_reply_to_status_id_str: incomingTweet.id_str,
       in_reply_to_user_id_str: incomingTweet.user.id_str,
       in_reply_to_screen_name: incomingTweet.user.screen_name

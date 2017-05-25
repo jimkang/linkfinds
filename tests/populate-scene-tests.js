@@ -6,7 +6,7 @@ const seedrandom = require('seedrandom');
 
 const testCases = [
   {
-    name: "Don't occupy blocked-out spaces.",
+    name: 'Don\'t occupy blocked-out spaces.',
     ctorOpts: {
       probable: createProbable({
         random: seedrandom('woods')
@@ -28,7 +28,7 @@ const testCases = [
      ..xx`
   },
   {
-    name: "Cave scene",
+    name: 'Cave scene',
     ctorOpts: {
       probable: createProbable({
         random: seedrandom('caves')
@@ -50,7 +50,7 @@ const testCases = [
      ..xx`
   },
   {
-    name: "Lost woods",
+    name: 'Lost woods',
     ctorOpts: {
       probable: createProbable({
         random: seedrandom('lostwoods')
@@ -73,7 +73,7 @@ const testCases = [
      e...e`
   },
   {
-    name: "Graveyard",
+    name: 'Graveyard',
     ctorOpts: {
       probable: createProbable({
         random: seedrandom('graveyard')

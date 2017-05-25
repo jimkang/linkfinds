@@ -1,9 +1,11 @@
+/* global __dirname */
+
 var test = require('tape');
 var rimraf = require('rimraf');
 var level = require('level');
 var Sublevel = require('level-sublevel');
 var saveWordForUser = require('../../save-word-for-user');
-var getInterestingWords = require('../../get-interesting-words')
+var getInterestingWords = require('../../get-interesting-words');
 var config = require('../../config');
 var Nounfinder = require('nounfinder');
 var queue = require('d3-queue').queue;
@@ -114,7 +116,7 @@ function setUpDb(usedWordsForUsers, done) {
 
   var q = queue();
 
-  for (username in usedWordsForUsers) {
+  for (var username in usedWordsForUsers) {
     q.defer(saveWordsForUser, testDb, username, usedWordsForUsers[username]);
   }
 

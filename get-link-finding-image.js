@@ -1,17 +1,13 @@
 function GetLinkFindingImage(opts) {
-  var config;
   var composeLinkScene;
 
   if (opts) {
-    config = opts.config;
     composeLinkScene = opts.composeLinkScene;
   }
 
   return getLinkFindingImage;
 
   function getLinkFindingImage(imageConceptResult, done) {
-    var base64Image = '';
-
     var composeOpts = {
       thingURL: imageConceptResult.imgurl
     };

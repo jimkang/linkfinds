@@ -1,11 +1,11 @@
 var config = require('./config');
 // var config = require('./test-config');
 var async = require('async');
-var postImage = require('./post-image');
 var getRandomLinkImageResult = require('./get-random-link-image-result');
-const ComposeLinkScene = require('./compose-link-scene');
+var ComposeLinkScene = require('./compose-link-scene');
 var Tumblrwks = require('tumblrwks');
 var tumblr = new Tumblrwks(config.tumblr, config.tumblr.blog);
+var dooDooDooDoo = require('./doo-doo-doo-doo');
 
 var source = 'wordnik';
 
@@ -36,7 +36,7 @@ function postLinkFindingImageToTumblr(linkResult, done) {
     type: 'photo',
     source: 'data64',
     data64: linkResult.base64Image,
-    caption: '♪ DOO DOO DOO DOO! ♪',
+    caption: dooDooDooDoo(),
     tags: 'zelda, link, ' + linkResult.concept.replace(/ /g, '')
   };
 

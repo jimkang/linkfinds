@@ -9,8 +9,8 @@ function saveWordForUser(opts, done) {
     sublevelDb = opts.sublevelDb;    
   } 
 
-   var usedWords = sublevelDb.sublevel('used-words').sublevel(username);
-   usedWords.put(word, new Date().toISOString(), done);
+  var usedWords = sublevelDb.sublevel('used-words').sublevel(username);
+  usedWords.put(word, new Date().toISOString(), done);
 }
 
 module.exports = saveWordForUser;

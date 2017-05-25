@@ -54,7 +54,7 @@ function getRandomLinkImageResult(opts, allDone) {
       wordnok.getRandomWords(opts, done);
     }
 
-    function extractTrends(error, data, response) {
+    function extractTrends(error, data) {
       if (error) {
         done(error);
       }

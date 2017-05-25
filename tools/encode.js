@@ -1,3 +1,5 @@
+/* global process */
+
 var url = '';
 
 if (process.argv.length > 2) {

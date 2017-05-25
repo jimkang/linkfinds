@@ -39,7 +39,7 @@ function getInterestingWords(opts, allDone) {
   function filterOutUsedWords(words, done) {
     var q = queue();
     words.forEach(queueWordLookup);
-    q.awaitAll(compactUnusedWords)
+    q.awaitAll(compactUnusedWords);
 
     function queueWordLookup(word) {
       q.defer(lookUpWord, word);
@@ -58,7 +58,7 @@ function getInterestingWords(opts, allDone) {
   function lookUpWord(word, done) {
     usedWords.get(word, checkResult);
 
-    function checkResult(error, dateString) {
+    function checkResult(error) {
       if (error) {
         // Don't pass on a NotFoundError. That's just telling us we have not used the word.
         if (error.type === 'NotFoundError') {

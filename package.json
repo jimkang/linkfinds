@@ -50,7 +50,7 @@
     "object-path-exists": "^1.0.0",
     "paste-bitmaps": "^1.0.1",
     "pick-first-good-url": "^2.0.0",
-    "probable": "^1.8.0",
+    "probable": "^2.1.1",
     "request": "^2.72.0",
     "split-to-words": "^1.0.0",
     "tumblrwks": "^0.3.0",

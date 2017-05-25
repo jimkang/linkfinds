@@ -1,6 +1,5 @@
 const defaultProbable = require('probable');
 const range = require('d3-array').range;
-const assetKeysForMapIds = require('./asset-keys-for-map-ids');
 const populateWoodsScene = require('./populate-woods-scene');
 const populateCaveScene = require('./populate-cave-scene');
 const populateLostWoodsScene = require('./populate-lost-woods-scene');

@@ -1,4 +1,3 @@
-var config = require('./config');
 var callNextTick = require('call-next-tick');
 var betterKnowATweet = require('better-know-a-tweet');
 var async = require('async');

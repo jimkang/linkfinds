@@ -1,4 +1,3 @@
-var request = require('request');
 var async = require('async');
 var pick = require('lodash.pick');
 var callNextTick = require('call-next-tick');

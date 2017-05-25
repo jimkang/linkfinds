@@ -3,7 +3,7 @@ const addEntitiesToMap = require('./add-entities-to-map');
 const extraFixturesTableDef = {
   '0-9': 'g', // grave
   '10-99': 'r', // grave-tree
-   '100-104': '¡' // 'armos-statue'
+  '100-104': '¡' // 'armos-statue'
 };
 
 const guysTableDef = {

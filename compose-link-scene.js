@@ -1,19 +1,13 @@
-const async = require('async');
-const queue = require('d3-queue').queue;
+/* global __dirname */
+
 const Jimp = require('jimp');
 const PasteBitmaps = require('paste-bitmaps');
 const createProbable = require('probable').createProbable;
-const maxLinkWidth = 56;
 const tileSize = 64;
-const linkHeight = tileSize;
-const margin = 32;
-const minSceneWidth = maxLinkWidth + 2 * margin;
-const minSceneHeight = linkHeight + 2 * margin;
 const values = require('lodash.values');
 const assetKeysForMapIds = require('./asset-keys-for-map-ids');
 const assetsToPreload = values(assetKeysForMapIds);
 const PopulateScene = require('./populate-scene');
-const range = require('d3-array').range;
 const palette = require('get-rgba-palette');
 
 function ComposeLinkScene(createOpts, createDone) {
@@ -67,7 +61,6 @@ function ComposeLinkScene(createOpts, createDone) {
 
   function composeLinkScene(opts, sceneDone) {
     var thingURL;
-    var scene;
 
     if (opts) {
       thingURL = opts.thingURL;
@@ -148,7 +141,7 @@ function ComposeLinkScene(createOpts, createDone) {
 
     // Average to 16x11.
     var sceneWidth = 4 + probable.roll(13) + probable.roll(13);
-    var sceneHeight = 4 + probable.roll(8) + probable.roll(8)
+    var sceneHeight = 4 + probable.roll(8) + probable.roll(8);
 
     if (sceneWidth < thingTileSize[0] + 2) {
       sceneWidth = thingTileSize[0] + 2;
