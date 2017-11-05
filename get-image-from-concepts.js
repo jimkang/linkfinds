@@ -8,17 +8,6 @@ var findWhere = require('lodash.findwhere');
 var behavior = require('./behavior');
 var pathExists = require('object-path-exists');
 
-var nonTextImageTypeTable = probable.createTableFromDef({
-  '0-5': 'photo',
-  '6-6': 'clipart',
-  '7-7': 'lineart'
-});
-
-var skipDomains = [
-  'deviantart.net',
-  'deviantart.com',
-  'tumblr.com'
-];
 
 function getImageFromConcepts(concepts, allDone) {
   var result;
@@ -27,13 +16,8 @@ function getImageFromConcepts(concepts, allDone) {
   function searchGIS(concept, done) {
     var gisOpts = {
       searchTerm: concept,
-      queryStringAddition: '&safe=active&tbs=ic:trans'
+      queryStringAddition: '&safe=active&tbs=ic:trans,itp:photo'
     };
-
-    if (probable.roll(4) > 0) {
-      // Try to reduce the amount of text-in-image results.
-      gisOpts.queryStringAddition += ',itp:' + nonTextImageTypeTable.roll();
-    }
 
     gis(gisOpts, checkGISResults);
 
@@ -49,8 +33,13 @@ function getImageFromConcepts(concepts, allDone) {
           results.slice(0, behavior.numberOfImageResultToConsider)
         );
         var pickOpts = {
-          urls: pluck(imageResults, 'url').filter(domainIsOK),
-          responseChecker: isImageMIMEType
+          urls: pluck(imageResults, 'url'),
+          responseChecker: isImageMIMEType,
+          filterOutDomains: [
+            'deviantart.com',
+            'deviantart.net',
+            'pinterest.com'
+          ]
         };
 
         pickFirstGoodURL(pickOpts, saveGoodURL);        
@@ -101,12 +90,5 @@ function isImageMIMEType(response, done) {
   }
 }
 
-function domainIsOK(url) {
-  return skipDomains.every(skipDomainIsNotInURL);
-
-  function skipDomainIsNotInURL(skipDomain) {
-    return url.indexOf(skipDomain) === -1;
-  }
-}
 
 module.exports = getImageFromConcepts;
