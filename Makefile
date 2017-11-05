@@ -7,8 +7,9 @@ SSHCMD = ssh $(USER)@$(SERVER)
 PRIVSSHCMD = ssh $(PRIVUSER)@$(SERVER)
 APPDIR = /opt/$(PROJECTNAME)
 
-pushall: sync set-permissions restart-remote
+pushall: stop-remote sync set-permissions
 	git push origin master
+	make restart-remote
 
 sync:
 	rsync -a $(HOMEDIR) $(USER)@$(SERVER):/opt/ --exclude node_modules/ --exclude data/
