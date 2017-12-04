@@ -47,7 +47,7 @@ test:
 
 run-multiple:
 	number=1 ; while [[ $$number -le 25 ]] ; do \
-		node linkfinds-post.js ; \
+		node linkfinds-post.js --dry; \
 		((number = number + 1)) ; \
 	done
 

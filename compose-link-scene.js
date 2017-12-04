@@ -106,7 +106,8 @@ function ComposeLinkScene(createOpts, createDone) {
 
       var imageSpecs = sceneMapToImageSpecs(sceneMap);
       imageSpecs.push({
-        cacheId: probable.roll(5) === 0 ? 'link-both-arms-up' : 'link-one-arm-up',
+        // cacheId: probable.roll(5) === 0 ? 'link-both-arms-up' : 'link-one-arm-up',
+        cacheId: probable.roll(5) === 0 ? 'link-both-arms-up-xmas' : 'link-one-arm-up-xmas',
         x: linkPositionPixels[0],
         y: linkPositionPixels[1]
       });
