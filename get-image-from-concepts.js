@@ -10,6 +10,11 @@ var pathExists = require('object-path-exists');
 
 
 function getImageFromConcepts(concepts, allDone) {
+  if (!concepts || concepts.length < 1) {
+    callNextTick(allDone, new Error('No concepts given.'));
+    return;
+  }
+
   var result;
   async.someSeries(concepts, searchGIS, passResult);
 
