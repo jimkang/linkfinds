@@ -48,7 +48,7 @@ function shouldReplyToTweet(opts, done) {
   }
 
   if (!canIChimeIn(tweet.text)) {
-    callNextTick(done, new Error('Cannot chime in on this tweet.'));
+    callNextTick(done, new Error('Cannot chime in on this tweet: ' + tweet.text));
     return;    
   }
 
