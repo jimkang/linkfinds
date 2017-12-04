@@ -4,7 +4,10 @@ var async = require('async');
 var behavior = require('./behavior');
 var createIsCool = require('iscool');
 var canIChimeIn = require('can-i-chime-in')();
-var iscool = createIsCool();
+var okToRespondIsCool = createIsCool({
+  falsePositives: []
+});
+
 var username = behavior.twitterUsername;
 var splitToWords = require('split-to-words');
 
@@ -39,7 +42,7 @@ function shouldReplyToTweet(opts, done) {
   }
 
   var words = splitToWords(tweet.text);
-  if (!words.every(iscool)) {
+  if (!words.every(okToRespondIsCool)) {
     callNextTick(done, new Error('Not cool to reply to tweet: ' + tweet.text));
     return;
   }
