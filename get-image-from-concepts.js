@@ -71,7 +71,7 @@ function getImageFromConcepts(concepts, allDone) {
       allDone(error);
     }
     else if (!found) {
-      allDone(new Error('Could not find image for concepts.'));
+      allDone(new Error('Could not find image for concepts:' + concepts.join(', ')));
     }
     else {
       allDone(null, result);
