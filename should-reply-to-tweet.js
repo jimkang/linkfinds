@@ -6,6 +6,7 @@ var createIsCool = require('iscool');
 var canIChimeIn = require('can-i-chime-in')();
 var iscool = createIsCool();
 var username = behavior.twitterUsername;
+var splitToWords = require('split-to-words');
 
 // Passes an error if you should not reply.
 function shouldReplyToTweet(opts, done) {
@@ -37,9 +38,9 @@ function shouldReplyToTweet(opts, done) {
     return;
   }
 
-  var words = tweet.text.split(/[ ":.,;!?#]/);
+  var words = splitToWords(tweet.text);
   if (!words.every(iscool)) {
-    callNextTick(done, new Error('Not cool to reply to tweet.'));
+    callNextTick(done, new Error('Not cool to reply to tweet: ' + tweet.text));
     return;
   }
 
