@@ -30,7 +30,7 @@
     "async": "^2.0.0-rc.3",
     "better-know-a-tweet": "^1.0.1",
     "call-next-tick": "^1.1.2",
-    "can-i-chime-in": "^2.0.30",
+    "can-i-chime-in": "^2.0.31",
     "d3-array": "^0.8.1",
     "d3-queue": "^2.0.3",
     "filtered-followback": "^1.3.5",
@@ -52,7 +52,7 @@
     "pick-first-good-url": "^2.0.0",
     "probable": "^2.1.1",
     "request": "^2.72.0",
-    "split-to-words": "^1.0.1",
+    "split-to-words": "^1.0.2",
     "tumblrwks": "^0.3.0",
     "twit": "^2.2.4",
     "wordnok": "^3.2.0"
