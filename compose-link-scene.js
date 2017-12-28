@@ -24,6 +24,15 @@ function ComposeLinkScene(createOpts, createDone) {
     });
   }
 
+  var linkTable = probable.createTableFromSizes([
+    [50, 'link-one-arm-up'],
+    [20, 'link-both-arms-up'],
+    [16, 'link-one-arm-up-blue-ring'],
+    [4, 'link-both-arms-up-blue-ring'],
+    [8, 'link-one-arm-up-red-ring'],
+    [2, 'link-both-arms-up-red-ring']
+  ]);
+
   // TODO: Background should be part of the scene.
   const backgroundTable = probable.createTableFromDef({
     '0-19': 0xFFFFFFFF, // 'background-white',
@@ -106,8 +115,8 @@ function ComposeLinkScene(createOpts, createDone) {
 
       var imageSpecs = sceneMapToImageSpecs(sceneMap);
       imageSpecs.push({
-        // cacheId: probable.roll(5) === 0 ? 'link-both-arms-up' : 'link-one-arm-up',
-        cacheId: probable.roll(5) === 0 ? 'link-both-arms-up-xmas' : 'link-one-arm-up-xmas',
+        cacheId: linkTable.roll(),
+        // cacheId: probable.roll(5) === 0 ? 'link-both-arms-up-xmas' : 'link-one-arm-up-xmas',
         x: linkPositionPixels[0],
         y: linkPositionPixels[1]
       });
