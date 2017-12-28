@@ -26,29 +26,30 @@ function postImage(opts, allDone) {
 
   if (base64Image.length < 10) {
     callNextTick(
-      allDone, new Error('Received bad base64 image in postImage opts: ' + JSON.stringify(opts))
+      allDone,
+      new Error(
+        'Received bad base64 image in postImage opts: ' + JSON.stringify(opts)
+      )
     );
     return;
   }
 
-  var optSummary = pick(opts, 'altText', 'caption', 'in_reply_to_status_id_str');
+  var optSummary = pick(
+    opts,
+    'altText',
+    'caption',
+    'in_reply_to_status_id_str'
+  );
   // optSummary.base64Image = base64Image.substr(0, 100) + '[truncated]';
   console.log('Posting image for', altText, JSON.stringify(optSummary));
 
   var mediaPostData;
 
-  async.waterfall(
-    [
-      postMedia,
-      postMetadata,
-      postTweet
-    ],
-    allDone
-  );
+  async.waterfall([postMedia, postMetadata, postTweet], allDone);
 
   function postMedia(done) {
     var mediaPostOpts = {
-      media_data: base64Image 
+      media_data: base64Image
     };
     twit.post('media/upload', mediaPostOpts, done);
   }
@@ -75,9 +76,7 @@ function postImage(opts, allDone) {
 
     var body = {
       status: caption,
-      media_ids: [
-        mediaPostData.media_id_string
-      ]
+      media_ids: [mediaPostData.media_id_string]
     };
     if (in_reply_to_status_id_str) {
       body.in_reply_to_status_id_str = in_reply_to_status_id_str;
@@ -92,10 +91,12 @@ function postImage(opts, allDone) {
     }
 
     if (dryRun) {
-      console.log('Would have tweeted: using', JSON.stringify(body, null, '  '));
+      console.log(
+        'Would have tweeted: using',
+        JSON.stringify(body, null, '  ')
+      );
       callNextTick(done);
-    }
-    else {
+    } else {
       twit.post('statuses/update', body, done);
     }
   }

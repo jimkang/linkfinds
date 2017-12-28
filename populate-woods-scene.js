@@ -16,7 +16,7 @@ const guysTableDef = {
   '100-100': '¢', // goriya'
   '101-109': '¥', // moblin-blue'
   '110-124': '¦', // octorok-blue'
-  '125-139': 'ª', // tektite-blue'
+  '125-139': 'ª' // tektite-blue'
 };
 
 function populateWoodsScene(opts) {

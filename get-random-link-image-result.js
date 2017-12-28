@@ -30,11 +30,7 @@ function getRandomLinkImageResult(opts, allDone) {
   });
 
   async.waterfall(
-    [
-      getConcepts,
-      getImageFromConcepts,
-      getLinkFindingImage
-    ],
+    [getConcepts, getImageFromConcepts, getLinkFindingImage],
     allDone
   );
 
@@ -44,8 +40,7 @@ function getRandomLinkImageResult(opts, allDone) {
         id: 1 //1 is "Worldwide"
       };
       twit.get('trends/place', params, extractTrends);
-    }
-    else {
+    } else {
       var opts = {
         customParams: {
           limit: 5
@@ -57,8 +52,7 @@ function getRandomLinkImageResult(opts, allDone) {
     function extractTrends(error, data) {
       if (error) {
         done(error);
-      }
-      else {
+      } else {
         var trendNames = pluck(data[0].trends.slice(0, 10), 'name');
         trendNames = trendNames.filter(trendNameIsCool);
         done(null, probable.shuffle(trendNames));

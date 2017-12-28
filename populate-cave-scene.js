@@ -4,7 +4,7 @@ const furnitureTableDef = {
   '0-89': 'f', // fire
   '90-91': 'g', // grave
   '92-129': '¨', // stone-statue1
-  '130-169': '©', // stone-statue2
+  '130-169': '©' // stone-statue2
 };
 
 const guysTableDef = {
@@ -19,7 +19,7 @@ const guysTableDef = {
   '155-164': '§', // stalfos
   '165-169': '«', // 'wizzrobe-blue',
   '170-179': '¬', // 'wizzrobe-red',
-  '180-194': '®', // 'zol'
+  '180-194': '®' // 'zol'
 };
 
 function populateCaveScene(opts) {
@@ -38,8 +38,8 @@ function populateCaveScene(opts) {
     if (fixturePairY < 0) {
       fixturePairY = 0;
     }
-    const leftFixturePos = [~~(sceneMap.length/4), fixturePairY];
-    const rightFixturePos = [Math.ceil(3 * sceneMap.length/4), fixturePairY];
+    const leftFixturePos = [~~(sceneMap.length / 4), fixturePairY];
+    const rightFixturePos = [Math.ceil(3 * sceneMap.length / 4), fixturePairY];
     const fixtureKey = furnitureTable.roll();
     if (sceneMap[leftFixturePos[0]][leftFixturePos[1]] === '.') {
       sceneMap[leftFixturePos[0]][leftFixturePos[1]] = fixtureKey;
@@ -67,7 +67,7 @@ function populateCaveScene(opts) {
       guyY = 0;
     }
 
-    var guyX = ~~(sceneMap.length/2);
+    var guyX = ~~(sceneMap.length / 2);
     const guessDirection = probable.roll(2) === 0 ? 1 : -1;
     guyX += 2 * guessDirection;
     if (sceneMap[guyX][guyY] === '.') {

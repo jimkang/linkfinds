@@ -28,8 +28,9 @@ function populateGraveyardScene(opts) {
   for (var x = 1; x < sceneMap.length; x += 3) {
     for (var y = 1; y < sceneMap[x].length; y += 3) {
       if (sceneMap[x][y] === '.') {
-        sceneMap[x][y] = probable.roll(20) === 0 ? extraFixturesTable.roll() : 'g';
-      }      
+        sceneMap[x][y] =
+          probable.roll(20) === 0 ? extraFixturesTable.roll() : 'g';
+      }
     }
   }
 

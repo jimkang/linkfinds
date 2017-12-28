@@ -16,7 +16,7 @@ const guysTableDef = {
   '110-119': '¢', // goriya'
   '120-149': '¥', // moblin-blue'
   '150-159': '¦', // octorok-blue'
-  '160-169': 'ª', // tektite-blue'
+  '160-169': 'ª' // tektite-blue'
 };
 
 function populateLostWoodsScene(opts) {

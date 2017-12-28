@@ -64,3 +64,6 @@ update-iscool-and-chime-in:
 
 # stop-local-photo-booth-server:
 # 	kill $(shell cat test-photobooth-pid.txt)
+
+prettier:
+	prettier --single-quote --write "**/*.js"

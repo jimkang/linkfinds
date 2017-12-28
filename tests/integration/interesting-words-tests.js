@@ -23,12 +23,13 @@ var statelessTestCases = [
   {
     text: 'I poured some of my grenadine on the pavement in memory.',
     maxCommonness: 100,
-    expected: [ 'grenadine', 'pavement' ]
+    expected: ['grenadine', 'pavement']
   },
   {
-    text: 'There are struggles and losses and pursuits and beheadings. All of the pieces crumble, all of the pieces turn dastardly towards (1/2)',
+    text:
+      'There are struggles and losses and pursuits and beheadings. All of the pieces crumble, all of the pieces turn dastardly towards (1/2)',
     maxCommonness: 1000,
-    expected: [ 'struggle', 'loss', 'pursuit', 'beheading', 'piece' ]
+    expected: ['struggle', 'loss', 'pursuit', 'beheading', 'piece']
   }
 ];
 
@@ -41,17 +42,18 @@ var statefulTestCases = [
       smidgeo: ['grenadine'],
       smallcatlabs: ['pavement']
     },
-    expected: [ 'pavement' ]
+    expected: ['pavement']
   },
   {
-    text: 'There are struggles and losses and pursuits and beheadings. All of the pieces crumble, all of the pieces turn dastardly towards (1/2)',
+    text:
+      'There are struggles and losses and pursuits and beheadings. All of the pieces crumble, all of the pieces turn dastardly towards (1/2)',
     maxCommonness: 1000,
     username: 'smallcatlabs',
     usedWordsForUsers: {
       smidgeo: ['grenadine', 'struggle', 'loss'],
       smallcatlabs: ['pavement', 'beheading', 'loss']
     },
-    expected: [ 'struggle', 'pursuit', 'piece' ]
+    expected: ['struggle', 'pursuit', 'piece']
   }
 ];
 

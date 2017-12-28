@@ -8,7 +8,6 @@ var findWhere = require('lodash.findwhere');
 var behavior = require('./behavior');
 var pathExists = require('object-path-exists');
 
-
 function getImageFromConcepts(concepts, allDone) {
   if (!concepts || concepts.length < 1) {
     callNextTick(allDone, new Error('No concepts given.'));
@@ -29,11 +28,9 @@ function getImageFromConcepts(concepts, allDone) {
     function checkGISResults(error, results) {
       if (error) {
         done(error, false);
-      }
-      else if (results.length < 1) {
+      } else if (results.length < 1) {
         done(null, false);
-      }
-      else {
+      } else {
         var imageResults = probable.shuffle(
           results.slice(0, behavior.numberOfImageResultToConsider)
         );
@@ -47,18 +44,16 @@ function getImageFromConcepts(concepts, allDone) {
           ]
         };
 
-        pickFirstGoodURL(pickOpts, saveGoodURL);        
+        pickFirstGoodURL(pickOpts, saveGoodURL);
       }
 
       function saveGoodURL(error, goodURL) {
         if (error) {
           done(error);
-        }
-        else if (!goodURL) {
+        } else if (!goodURL) {
           done(null, false);
-        }
-        else {
-          var goodGISResult = findWhere(imageResults, {url: goodURL});
+        } else {
+          var goodGISResult = findWhere(imageResults, { url: goodURL });
           result = {
             concept: concept,
             imgurl: goodURL,
@@ -74,11 +69,11 @@ function getImageFromConcepts(concepts, allDone) {
   function passResult(error, found) {
     if (error) {
       allDone(error);
-    }
-    else if (!found) {
-      allDone(new Error('Could not find image for concepts:' + concepts.join(', ')));
-    }
-    else {
+    } else if (!found) {
+      allDone(
+        new Error('Could not find image for concepts:' + concepts.join(', '))
+      );
+    } else {
       allDone(null, result);
     }
   }
@@ -87,13 +82,13 @@ function getImageFromConcepts(concepts, allDone) {
 function isImageMIMEType(response, done) {
   if (pathExists(response, ['headers', 'content-type'])) {
     callNextTick(
-      done, null, response.headers['content-type'].indexOf('image/') === 0
+      done,
+      null,
+      response.headers['content-type'].indexOf('image/') === 0
     );
-  }
-  else {
+  } else {
     callNextTick(done, null, false);
   }
 }
-
 
 module.exports = getImageFromConcepts;

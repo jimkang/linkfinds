@@ -9,11 +9,7 @@ var prefixTable = probable.createTableFromSizes([
   [2, '𝄞']
 ]);
 
-var suffixTable = probable.createTableFromSizes([
-  [3, '♩'],
-  [5, '♪'],
-  [1, '𝄑']
-]);
+var suffixTable = probable.createTableFromSizes([[3, '♩'], [5, '♪'], [1, '𝄑']]);
 
 function dooDooDooDoo() {
   return prefixTable.roll() + ' DOO DOO DOO DOO! ' + suffixTable.roll();

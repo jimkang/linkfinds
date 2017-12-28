@@ -26,7 +26,7 @@ function addEntitiesToMap(opts) {
       if (map[x][y] === '.' && entityAddRoll()) {
         map[x][y] = table.roll();
         entityCount += 1;
-      }      
+      }
     }
   }
 }

@@ -5,8 +5,7 @@ var url = '';
 if (process.argv.length > 2) {
   url = process.argv[2];
   logEncoding();
-}
-else {
+} else {
   process.stdin.on('data', readStdIn);
   process.stdin.on('end', logEncoding);
 }

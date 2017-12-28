@@ -6,7 +6,7 @@ const seedrandom = require('seedrandom');
 
 const testCases = [
   {
-    name: 'Don\'t occupy blocked-out spaces.',
+    name: "Don't occupy blocked-out spaces.",
     ctorOpts: {
       probable: createProbable({
         random: seedrandom('woods')
@@ -14,16 +14,9 @@ const testCases = [
     },
     opts: {
       sceneSize: [4, 3],
-      occupiedSpots: [
-        [1, 0],
-        [2, 1],
-        [2, 2],
-        [3, 0],
-        [3, 2]
-      ]
+      occupiedSpots: [[1, 0], [2, 1], [2, 2], [3, 0], [3, 2]]
     },
-    expected:
-    `.xox
+    expected: `.xox
      ..x.
      ..xx`
   },
@@ -36,16 +29,9 @@ const testCases = [
     },
     opts: {
       sceneSize: [4, 3],
-      occupiedSpots: [
-        [1, 0],
-        [2, 1],
-        [2, 2],
-        [3, 0],
-        [3, 2]
-      ]
+      occupiedSpots: [[1, 0], [2, 1], [2, 2], [3, 0], [3, 2]]
     },
-    expected:
-    `.x.x
+    expected: `.x.x
      .¨x¨
      ..xx`
   },
@@ -58,16 +44,9 @@ const testCases = [
     },
     opts: {
       sceneSize: [5, 4],
-      occupiedSpots: [
-        [1, 0],
-        [2, 1],
-        [2, 2],
-        [3, 0],
-        [3, 2]
-      ]
+      occupiedSpots: [[1, 0], [2, 1], [2, 2], [3, 0], [3, 2]]
     },
-    expected:
-    `.x.x.
+    expected: `.x.x.
      ..x..
      ..xx.
      e...e`
@@ -81,20 +60,13 @@ const testCases = [
     },
     opts: {
       sceneSize: [5, 4],
-      occupiedSpots: [
-        [1, 0],
-        [2, 1],
-        [2, 2],
-        [3, 0],
-        [3, 2]
-      ]
+      occupiedSpots: [[1, 0], [2, 1], [2, 2], [3, 0], [3, 2]]
     },
-    expected:
-    `.x.x.
+    expected: `.x.x.
      .gx.g
      g.xxr
      r...r`
-  },
+  }
 ];
 
 testCases.forEach(runTest);
@@ -117,7 +89,7 @@ function runTest(testCase) {
 function mapStringToArrays(mapString) {
   var arrays;
 
-  var rowStrings = mapString.split('\n').map((r) => r.trim());
+  var rowStrings = mapString.split('\n').map(r => r.trim());
   if (rowStrings.length > 0) {
     var colCount = rowStrings[0].length;
     arrays = range(colCount).map(() => []);
@@ -128,7 +100,7 @@ function mapStringToArrays(mapString) {
   return arrays;
 
   function addColsToArrays(rowString, rowNumber) {
-    for (var colIndex = 0; colIndex < rowString.length; ++ colIndex) {
+    for (var colIndex = 0; colIndex < rowString.length; ++colIndex) {
       arrays[colIndex][rowNumber] = rowString.charAt(colIndex);
     }
   }

@@ -22,7 +22,7 @@ var dooDooDooDoo = require('./doo-doo-doo-doo');
 
 var dryRun = false;
 if (process.argv.length > 2) {
-  dryRun = (process.argv[2].toLowerCase() == '--dry');
+  dryRun = process.argv[2].toLowerCase() == '--dry';
 }
 
 var db = Sublevel(level(__dirname + '/data/linkfinds-responses.db'));
@@ -76,7 +76,7 @@ function respondToTweet(incomingTweet) {
       lastReplyDates: lastReplyDates
     };
     shouldReplyToTweet(opts, done);
-  }  
+  }
 
   function getImageConceptFromTweet(done) {
     var imageConcept = {};
@@ -84,7 +84,7 @@ function respondToTweet(incomingTweet) {
     if (pathExists(incomingTweet, ['entities', 'media'])) {
       var media = incomingTweet.entities.media;
       if (media.length > 0) {
-        var photos =  media.filter(isPhoto);
+        var photos = media.filter(isPhoto);
         photo = probable.pickFromArray(photos);
       }
     }
@@ -99,29 +99,23 @@ function respondToTweet(incomingTweet) {
 
       imageConcept.concept = 'image'; // TODO: Get real alt text, if available.
       callNextTick(done, null, imageConcept);
-    }
-    else {
+    } else {
       getImageFromText(done);
     }
   }
 
   function getImageFromText(done) {
-    async.waterfall(
-      [
-        getWords,
-        getImageFromConcepts,
-        recordUseOfWord
-      ],
-      done
-    );
+    async.waterfall([getWords, getImageFromConcepts, recordUseOfWord], done);
 
     function getWords(getWordsDone) {
       // Once in a while, just use the entire tweet as one "word" to search for.
       if (probable.roll(4) === 0) {
-        var tweetTextWithoutUsername = incomingTweet.text.replace('@' + username, '');
+        var tweetTextWithoutUsername = incomingTweet.text.replace(
+          '@' + username,
+          ''
+        );
         callNextTick(getWordsDone, null, [tweetTextWithoutUsername]);
-      }
-      else {
+      } else {
         var opts = {
           text: incomingTweet.text,
           username: incomingTweet.user.screen_name,

@@ -9,15 +9,15 @@ const sceneTableDef = {
   '0-24': 'cave',
   '25-49': 'woods',
   '50-64': 'lost-woods',
-  '65-69': 'graveyard',
+  '65-69': 'graveyard'
   // '65-66': 'party'
 };
 
 const populatorForScene = {
-  'woods': populateWoodsScene,
-  'cave': populateCaveScene,
+  woods: populateWoodsScene,
+  cave: populateCaveScene,
   'lost-woods': populateLostWoodsScene,
-  'graveyard': poplulateGraveyardScene
+  graveyard: poplulateGraveyardScene
 };
 
 function PopulateScene(createOpts) {
@@ -41,7 +41,7 @@ function PopulateScene(createOpts) {
 
     if (opts) {
       sceneSize = opts.sceneSize;
-      occupiedSpots = opts.occupiedSpots; 
+      occupiedSpots = opts.occupiedSpots;
     }
 
     var sceneMap = range(sceneSize[0]).map(makeColumn);

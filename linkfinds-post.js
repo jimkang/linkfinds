@@ -19,17 +19,13 @@ if (process.argv.length > 2) {
     source = 'trending';
   }
 
-  dryRun = (process.argv.indexOf('--dry') !== -1);
+  dryRun = process.argv.indexOf('--dry') !== -1;
 }
 
 var twit = new Twit(config.twitter);
 
 async.waterfall(
-  [
-    createComposeLinkScene,
-    obtainImage,
-    postLinkFindingImage
-  ],
+  [createComposeLinkScene, obtainImage, postLinkFindingImage],
   wrapUp
 );
 
@@ -61,14 +57,16 @@ function postLinkFindingImage(linkResult, done) {
   }
 
   if (dryRun) {
-    const filename = 'would-have-posted-' +
-      (new Date()).toISOString().replace(/:/g, '-') +
+    const filename =
+      'would-have-posted-' +
+      new Date().toISOString().replace(/:/g, '-') +
       '.png';
     console.log('Writing out', filename);
-    fs.writeFileSync(filename, postImageOpts.base64Image, {encoding: 'base64'});
+    fs.writeFileSync(filename, postImageOpts.base64Image, {
+      encoding: 'base64'
+    });
     process.exit();
-  }
-  else {
+  } else {
     postImage(postImageOpts, done);
   }
 }
@@ -80,8 +78,7 @@ function wrapUp(error, data) {
     if (data) {
       console.log('data:', data);
     }
-  }
-  else {
+  } else {
     // Technically, the user wasn't replied to, but good enough.
     // lastTurnRecord.recordTurn(callOutId, new Date(), reportRecording);
   }

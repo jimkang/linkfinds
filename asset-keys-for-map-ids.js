@@ -30,7 +30,7 @@ module.exports = {
   '§': 'stalfos',
   '¨': 'stone-statue1',
   '©': 'stone-statue2',
-  'ª': 'tektite-blue',
+  ª: 'tektite-blue',
   '«': 'wizzrobe-blue',
   '¬': 'wizzrobe-red',
   '®': 'zol'

@@ -6,8 +6,8 @@ function saveWordForUser(opts, done) {
   if (opts) {
     word = opts.word;
     username = opts.username;
-    sublevelDb = opts.sublevelDb;    
-  } 
+    sublevelDb = opts.sublevelDb;
+  }
 
   var usedWords = sublevelDb.sublevel('used-words').sublevel(username);
   usedWords.put(word, new Date().toISOString(), done);

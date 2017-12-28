@@ -35,17 +35,17 @@ function ComposeLinkScene(createOpts, createDone) {
 
   // TODO: Background should be part of the scene.
   const backgroundTable = probable.createTableFromDef({
-    '0-19': 0xFFFFFFFF, // 'background-white',
-    '20-54': 0X000000FF, // 'background-black',
-    '55-89': 0XFEDBABFF, // 'background-overworld'
-    '90-99': 0XFEDBAB00, // transparent,
-    '100-109': 0X757575FF // graveyard
+    '0-19': 0xffffffff, // 'background-white',
+    '20-54': 0x000000ff, // 'background-black',
+    '55-89': 0xfedbabff, // 'background-overworld'
+    '90-99': 0xfedbab00, // transparent,
+    '100-109': 0x757575ff // graveyard
   });
   const backgroundTableNoBlack = probable.createTableFromDef({
-    '0-34': 0xFFFFFFFF, // 'background-white',
-    '35-89': 0XFEDBABFF, // 'background-overworld'
-    '90-99': 0XFEDBAB00, // transparent,
-    '100-109': 0X757575FF // graveyard
+    '0-34': 0xffffffff, // 'background-white',
+    '35-89': 0xfedbabff, // 'background-overworld'
+    '90-99': 0xfedbab00, // transparent,
+    '100-109': 0x757575ff // graveyard
   });
 
   const populateScene = PopulateScene({
@@ -61,8 +61,7 @@ function ComposeLinkScene(createOpts, createDone) {
   function passComposeFn(error, thePasteBitmapsFn) {
     if (error) {
       createDone(error);
-    }
-    else {
+    } else {
       pasteBitmaps = thePasteBitmapsFn;
       createDone(null, composeLinkScene);
     }
@@ -82,25 +81,33 @@ function ComposeLinkScene(createOpts, createDone) {
         sceneDone(error);
         return;
       }
-      
+
       const sceneSizeInTiles = determineSceneSizeInTiles(thing);
-      const thingPositionPixels = determineThingPositionInPixels(thing, sceneSizeInTiles);
+      const thingPositionPixels = determineThingPositionInPixels(
+        thing,
+        sceneSizeInTiles
+      );
       const linkPositionPixels = [
-        (sceneSizeInTiles[0]/2 - 0.5) * tileSize,
+        (sceneSizeInTiles[0] / 2 - 0.5) * tileSize,
         thingPositionPixels[1] + thing.bitmap.height
       ];
 
       var occupied = tilesOccupiedByImage(
-        thingPositionPixels[0], thingPositionPixels[1],
-        thing.bitmap.width, thing.bitmap.height
+        thingPositionPixels[0],
+        thingPositionPixels[1],
+        thing.bitmap.width,
+        thing.bitmap.height
       );
       var tilesOccupiedByLink = tilesOccupiedByImage(
-        linkPositionPixels[0], linkPositionPixels[1],
-        tileSize, tileSize
+        linkPositionPixels[0],
+        linkPositionPixels[1],
+        tileSize,
+        tileSize
       );
       occupied = occupied.concat(tilesOccupiedByLink);
 
-      var lowestLinkRow = tilesOccupiedByLink[tilesOccupiedByLink.length - 1][1];
+      var lowestLinkRow =
+        tilesOccupiedByLink[tilesOccupiedByLink.length - 1][1];
 
       // We always want there to be one row below Link so that he does not get cut off.
       if (lowestLinkRow >= sceneSizeInTiles[1]) {
@@ -135,7 +142,7 @@ function ComposeLinkScene(createOpts, createDone) {
         images: imageSpecs
       };
 
-      if (pasteOpts.background.fill === 0X000000FF) {
+      if (pasteOpts.background.fill === 0x000000ff) {
         var colors = palette(thing.bitmap.data, 1, 1);
         if (isCloseToBlack(colors[0])) {
           pasteOpts.background.fill = backgroundTableNoBlack.roll();
@@ -158,9 +165,8 @@ function ComposeLinkScene(createOpts, createDone) {
     }
 
     if (sceneHeight > 2 * thingTileSize[1]) {
-      sceneHeight = ~~(sceneHeight/2);
-    }
-    else if (sceneHeight < thingTileSize[1] + 2) {
+      sceneHeight = ~~(sceneHeight / 2);
+    } else if (sceneHeight < thingTileSize[1] + 2) {
       sceneHeight = thingTileSize[1] + 2;
     }
     return [sceneWidth, sceneHeight];
@@ -179,22 +185,23 @@ function getPathsForCacheIdsMap(ids) {
 
 function getImageTileSize(image) {
   return [
-    Math.ceil(image.bitmap.width/tileSize),
-    Math.ceil(image.bitmap.height/tileSize)
+    Math.ceil(image.bitmap.width / tileSize),
+    Math.ceil(image.bitmap.height / tileSize)
   ];
 }
 
 function pixelToTileCoord(pxcoord) {
-  return ~~(pxcoord/tileSize);
+  return ~~(pxcoord / tileSize);
 }
 
 function determineThingPositionInPixels(thing, sceneSizeInTiles) {
   const heightIncludingLink = thing.bitmap.height + tileSize;
-  const freeVerticalSpace = sceneSizeInTiles[1] * tileSize - heightIncludingLink;
+  const freeVerticalSpace =
+    sceneSizeInTiles[1] * tileSize - heightIncludingLink;
 
   return [
-    ~~((sceneSizeInTiles[0] * tileSize)/2 - thing.bitmap.width/2),
-    tileSize * pixelToTileCoord(freeVerticalSpace/2)
+    ~~(sceneSizeInTiles[0] * tileSize / 2 - thing.bitmap.width / 2),
+    tileSize * pixelToTileCoord(freeVerticalSpace / 2)
   ];
 }
 
@@ -232,7 +239,7 @@ function sceneMapToImageSpecs(sceneMap) {
 }
 
 function isCloseToBlack(rgb) {
-  return rgb[0] <25 && rgb[1] <25 && rgb[2] <25;
+  return rgb[0] < 25 && rgb[1] < 25 && rgb[2] < 25;
 }
 
 module.exports = ComposeLinkScene;

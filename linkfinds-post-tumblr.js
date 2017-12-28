@@ -10,11 +10,7 @@ var dooDooDooDoo = require('./doo-doo-doo-doo');
 var source = 'wordnik';
 
 async.waterfall(
-  [
-    createComposeLinkScene,
-    obtainImage,
-    postLinkFindingImageToTumblr
-  ],
+  [createComposeLinkScene, obtainImage, postLinkFindingImageToTumblr],
   wrapUp
 );
 

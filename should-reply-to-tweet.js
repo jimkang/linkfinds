@@ -48,22 +48,18 @@ function shouldReplyToTweet(opts, done) {
   }
 
   if (!canIChimeIn(tweet.text)) {
-    callNextTick(done, new Error('Cannot chime in on this tweet: ' + tweet.text));
-    return;    
+    callNextTick(
+      done,
+      new Error('Cannot chime in on this tweet: ' + tweet.text)
+    );
+    return;
   }
 
   if (isDirectlyAddressingMe(tweet)) {
     // We can bypass rate limiting (for now) if it's directly addressing us.
     callNextTick(done);
-  }
-  else {
-    async.waterfall(
-      [
-        goFindLastReplyDate,
-        replyDateWasNotTooRecent
-      ],
-      done
-    );
+  } else {
+    async.waterfall([goFindLastReplyDate, replyDateWasNotTooRecent], done);
   }
 
   function goFindLastReplyDate(done) {
@@ -81,8 +77,7 @@ function shouldReplyToTweet(opts, done) {
       if (error && error.type === 'NotFoundError') {
         error = null;
         date = new Date(0);
-      }
-      else {
+      } else {
         date = new Date(dateString);
       }
       done(error, tweet, date);
@@ -90,16 +85,18 @@ function shouldReplyToTweet(opts, done) {
   }
 
   function replyDateWasNotTooRecent(tweet, lastReplyDate, done) {
-    var hoursElapsed = (Date.now() - lastReplyDate.getTime())/(60 * 60 * 1000);
+    var hoursElapsed =
+      (Date.now() - lastReplyDate.getTime()) / (60 * 60 * 1000);
 
     if (hoursElapsed >= waitingPeriod) {
       done();
-    }
-    else {
-      done(new Error(
-        `Replied ${hoursElapsed} hours ago to ${tweet.user.screen_name}.
+    } else {
+      done(
+        new Error(
+          `Replied ${hoursElapsed} hours ago to ${tweet.user.screen_name}.
         Need at least ${waitingPeriod} to pass.`
-      ));
+        )
+      );
     }
   }
 }

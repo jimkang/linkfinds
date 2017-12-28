@@ -39,8 +39,7 @@ filteredFollowback(
       4406413835, // @metalband_exe
       4888652848 // @dunsonndraggan
     ],
-    blacklist: [
-    ]
+    blacklist: []
   },
   reportResults
 );

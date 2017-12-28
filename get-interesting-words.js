@@ -14,17 +14,13 @@ function getInterestingWords(opts, allDone) {
     username = opts.username;
     maxCommonness = opts.maxCommonness;
     sublevelDb = opts.sublevelDb;
-    nounfinder = opts.nounfinder; 
+    nounfinder = opts.nounfinder;
   }
 
   var usedWords = sublevelDb.sublevel('used-words').sublevel(username);
 
   async.waterfall(
-    [
-      getNouns,
-      filterForInterestingness,
-      filterOutUsedWords
-    ],
+    [getNouns, filterForInterestingness, filterOutUsedWords],
     allDone
   );
 
@@ -33,7 +29,7 @@ function getInterestingWords(opts, allDone) {
   }
 
   function filterForInterestingness(nouns, done) {
-    nounfinder.filterNounsForInterestingness(nouns,  maxCommonness, done);
+    nounfinder.filterNounsForInterestingness(nouns, maxCommonness, done);
   }
 
   function filterOutUsedWords(words, done) {
@@ -48,8 +44,7 @@ function getInterestingWords(opts, allDone) {
     function compactUnusedWords(error, unusedWords) {
       if (error) {
         done(error);
-      }
-      else {
+      } else {
         done(error, compact(unusedWords));
       }
     }
@@ -63,12 +58,10 @@ function getInterestingWords(opts, allDone) {
         // Don't pass on a NotFoundError. That's just telling us we have not used the word.
         if (error.type === 'NotFoundError') {
           done(null, word);
-        }
-        else {
+        } else {
           done(error);
         }
-      }
-      else {
+      } else {
         // Pass back nothing (effectively filtering out the word, if the word has been found).
         done();
       }

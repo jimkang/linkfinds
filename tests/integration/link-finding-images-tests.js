@@ -35,7 +35,8 @@ var testCases = [
   {
     name: 'valid-image',
     imageConcept: {
-      imgurl: 'http://assets.wholefoodsmarket.com/www/blogs/whole-story/post-images/strawberry_geometric.png',
+      imgurl:
+        'http://assets.wholefoodsmarket.com/www/blogs/whole-story/post-images/strawberry_geometric.png',
       concept: 'test'
     },
     expected: {}
@@ -51,14 +52,16 @@ var testCases = [
   {
     name: 'Blank https://twitter.com/linkfinds/status/730341827883192320',
     imageConcept: {
-      imgurl: 'http://vignette2.wikia.nocookie.net/p__/images/a/a6/Mort_Goldman.png/revision/latest?cb=20150524125305&path-prefix=protagonist',
+      imgurl:
+        'http://vignette2.wikia.nocookie.net/p__/images/a/a6/Mort_Goldman.png/revision/latest?cb=20150524125305&path-prefix=protagonist',
       concept: 'test'
     }
   },
   {
     name: 'Short thing',
     imageConcept: {
-      imgurl: 'http://vignette2.wikia.nocookie.net/mario/images/0/0d/SMW2_Sprite_Shy_Guy.png/revision/latest?cb=20080216150350&path-prefix=de',
+      imgurl:
+        'http://vignette2.wikia.nocookie.net/mario/images/0/0d/SMW2_Sprite_Shy_Guy.png/revision/latest?cb=20080216150350&path-prefix=de',
       concept: 'test'
     }
   },
@@ -76,7 +79,7 @@ function testSimultaneous(t) {
   for (var i = 0; i < multiplier; ++i) {
     testCases.forEach(startGet);
   }
-  
+
   var numberOfResults = 0;
 
   function startGet(testCase) {
@@ -100,10 +103,20 @@ function testSimultaneous(t) {
 }
 
 function validateResult(linkResult, t, testCase, prefix, done) {
-  t.equal(linkResult.concept, testCase.imageConcept.concept, 'Result has a concept.');
+  t.equal(
+    linkResult.concept,
+    testCase.imageConcept.concept,
+    'Result has a concept.'
+  );
   t.ok(linkResult.base64Image.length > 0, 'Result has a base64Image string.');
-  var filename = 'image-output/' + prefix + '-' + testCase.name.replace(/[\s\:\/]/g, '-') +
-    '-' + imageCounter + '.png';
+  var filename =
+    'image-output/' +
+    prefix +
+    '-' +
+    testCase.name.replace(/[\s\:\/]/g, '-') +
+    '-' +
+    imageCounter +
+    '.png';
   imageCounter += 1;
   console.log('Writing out', filename);
   console.log('You need to use your human eyes to visually inspect it.');
