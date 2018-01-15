@@ -53,6 +53,7 @@
     "probable": "^2.1.1",
     "request": "^2.72.0",
     "split-to-words": "^1.0.2",
+    "static-web-archive-on-git": "^1.0.2",
     "tumblrwks": "^0.3.0",
     "twit": "^2.2.4",
     "wordnok": "^3.2.0"

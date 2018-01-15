@@ -20,6 +20,7 @@ function GetLinkFindingImage(opts) {
       }
 
       var result = {
+        buffer: image,
         base64Image: image.toString('base64'),
         concept: imageConceptResult.concept
       };
