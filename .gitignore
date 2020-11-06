@@ -6,3 +6,5 @@ data/linkfinds-responses.db
 tests/integration/word-test.db
 tests/integration/image-output
 image-output
+config.mk
+*.swp

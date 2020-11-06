@@ -1,7 +1,7 @@
 /* global __dirname */
 
 const Jimp = require('jimp');
-const PasteBitmaps = require('paste-bitmaps');
+const PasteBitmaps = require('./paste-bitmaps');
 const createProbable = require('probable').createProbable;
 const tileSize = 64;
 const values = require('lodash.values');
@@ -73,7 +73,6 @@ function ComposeLinkScene(createOpts, createDone) {
     if (opts) {
       thingURL = opts.thingURL;
     }
-
     Jimp.read(thingURL, makeSceneWithThing);
 
     function makeSceneWithThing(error, thing) {
@@ -200,7 +199,7 @@ function determineThingPositionInPixels(thing, sceneSizeInTiles) {
     sceneSizeInTiles[1] * tileSize - heightIncludingLink;
 
   return [
-    ~~(sceneSizeInTiles[0] * tileSize / 2 - thing.bitmap.width / 2),
+    ~~((sceneSizeInTiles[0] * tileSize) / 2 - thing.bitmap.width / 2),
     tileSize * pixelToTileCoord(freeVerticalSpace / 2)
   ];
 }

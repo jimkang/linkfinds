@@ -1,8 +1,7 @@
+include config.mk
+
 PROJECTNAME = linkfinds
 HOMEDIR = $(shell pwd)
-USER = bot
-PRIVUSER = root
-SERVER = smallcatlabs
 SSHCMD = ssh $(USER)@$(SERVER)
 PRIVSSHCMD = ssh $(PRIVUSER)@$(SERVER)
 APPDIR = /opt/$(PROJECTNAME)
