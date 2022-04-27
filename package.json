@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@jimkang/post-it": "^1.1.2",
-    "async": "^2.0.0-rc.3",
+    "async": "^2.6.4",
     "better-know-a-tweet": "^1.0.1",
     "call-next-tick": "^1.1.2",
     "can-i-chime-in": "^2.0.42",
