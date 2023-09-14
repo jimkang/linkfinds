@@ -36,7 +36,7 @@
     "d3-queue": "^2.0.3",
     "eslint": "^7.12.1",
     "filtered-followback": "^1.3.5",
-    "g-i-s": "^2.1.6",
+    "g-i-s": "^2.1.7",
     "get-images-from-tweet": "^1.0.0",
     "get-rgba-palette": "^2.0.0",
     "iscool": "^1.1.64",
